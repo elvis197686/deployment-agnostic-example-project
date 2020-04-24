@@ -1,0 +1,17 @@
+version: 1
+runtime: node_10
+imageRepository: "retail/app1-src"
+
+environmentVariables:
+  - name: "SERVER_PORT"
+    description: |
+      Application's HTTP port
+    isMandatory: true
+    dataType: INT
+
+  - name: "PD_BASE"
+    description: |
+      Hostname of URL to PDS
+    isMandatory: true
+    dataType: STRING
+

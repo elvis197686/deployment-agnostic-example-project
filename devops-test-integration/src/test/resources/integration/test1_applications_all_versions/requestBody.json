@@ -1,0 +1,7 @@
+{
+	"inputDefinitionFilter": {
+		"name": "^app1_src$",
+		"version": "*",
+		"includePreview": false
+	}
+}

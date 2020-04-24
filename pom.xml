@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.scw.devops</groupId>
+    <artifactId>devops-product</artifactId>
+    <version>0.2.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>devops-product</name>
+
+    <modules>
+        <module>devops-contract</module>
+        <module>devops-store</module>
+        <module>devops-collector</module>
+        <module>devops-query</module>
+        <module>devops-test-integration</module>
+        <module>devops-deploy-common</module>
+        <module>devops-deploy-store</module>
+        <module>devops-deploy-collector</module>
+        <module>devops-deploy-query</module>
+    </modules>
+
+    <properties>
+    </properties>
+
+    <dependencies>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+        </pluginManagement>
+        <plugins>
+        </plugins>
+    </build>
+
+</project>

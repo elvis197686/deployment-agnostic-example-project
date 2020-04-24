@@ -1,0 +1,3 @@
+requiredProducts:
+- name: product2
+  version: preview

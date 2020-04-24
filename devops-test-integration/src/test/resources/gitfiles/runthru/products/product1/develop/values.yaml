@@ -1,0 +1,14 @@
+app1-alias1:
+  extraprop: should-ignore
+  image:
+    tag: 0.2.0
+    extraprop: should-ignore
+app1-alias2:
+  extraprop: should-ignore
+  image:
+    tag: 0.2.0
+    extraprop: should-ignore
+app2-alias:
+  image:
+    tag: preview
+    

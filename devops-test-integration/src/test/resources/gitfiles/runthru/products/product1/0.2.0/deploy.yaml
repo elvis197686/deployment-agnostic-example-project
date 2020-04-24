@@ -1,0 +1,7 @@
+name: product1
+productClass: infrastructure
+applications:
+- alias: app2-alias
+  definition:
+    name: app2
+    sourceRepository: "https://git.scm.com/retail/App2_src"

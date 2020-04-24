@@ -1,0 +1,66 @@
+[  
+   {  
+      "name":"test1",
+      "version":"preview",
+      "definition":{  
+         "name":"test1",
+         "version":"preview",
+         "autoStart":true,
+         "sourceRepository":"dummy/environments/test1.git",
+         "error":null
+      },
+      "errors":[  
+
+      ]
+   },
+   {  
+      "name":"test1",
+      "version":"0.2.0",
+      "definition":{  
+         "name":"test1",
+         "version":"0.2.0",
+         "autoStart":null,
+         "sourceRepository":"dummy/environments/test1.git",
+         "error":null
+      },
+      "errors":[  
+
+      ]
+   },
+   {  
+      "name":"test1",
+      "version":"0.1.0",
+      "definition":{  
+         "name":"test1",
+         "version":"0.1.0",
+         "autoStart":null,
+         "sourceRepository":"dummy/environments/test1.git",
+         "error":{  
+            "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+         }
+      },
+      "errors":[  
+         {  
+            "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+         }
+      ]
+   },
+   {  
+      "name":"test1",
+      "version":"bad_tag0.1",
+      "definition":{  
+         "name":"test1",
+         "version":"bad_tag0.1",
+         "autoStart":null,
+         "sourceRepository":"dummy/environments/test1.git",
+         "error":{  
+            "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+         }
+      },
+      "errors":[  
+         {  
+            "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+         }
+      ]
+   }
+]

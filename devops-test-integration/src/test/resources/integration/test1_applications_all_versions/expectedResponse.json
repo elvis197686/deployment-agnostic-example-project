@@ -1,0 +1,29 @@
+[  
+   {  
+      "name":"app1_src",
+      "version":"0.2.0",
+      "imageRepository":null,
+      "runtime":"UNKNOWN",
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+      }
+   },
+   {  
+      "name":"app1_src",
+      "version":"0.1.0",
+      "imageRepository":null,
+      "runtime":"UNKNOWN",
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+      }
+   },
+   {  
+      "name":"app1_src",
+      "version":"bad_tag0.1",
+      "imageRepository":null,
+      "runtime":"UNKNOWN",
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+      }
+   }
+]

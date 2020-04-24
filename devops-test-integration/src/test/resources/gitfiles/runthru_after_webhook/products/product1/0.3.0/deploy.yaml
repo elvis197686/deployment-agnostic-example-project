@@ -1,0 +1,22 @@
+name: product1
+productClass: infrastructure
+applications:
+- alias: app1-alias1
+  definition:
+    name: app1
+    sourceRepository: "https://git.scm.com/retail/app1_src.git"
+- alias: app1-alias2
+  definition:
+    name: app1
+    sourceRepository: "https://git.scm.com/retail/app1_src.git"
+- alias: app2-alias
+  definition:
+    name: app2
+    sourceRepository: "https://git.scm.com/retail/App2_src.git"
+
+requiredInfrastructure:
+- name: kafka
+- name: redis
+
+
+

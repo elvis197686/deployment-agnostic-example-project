@@ -1,0 +1,106 @@
+[  
+   {  
+      "name":"product1",
+      "version":"preview",
+      "productClass":"infrastructure",
+      "sourceRepository":"dummy/products/product1.git",
+      "deployToEnvironments":[  
+
+      ],
+      "aliasedAppDefs":[  
+         {  
+            "alias":"app1-alias1",
+            "definition":{  
+               "name":"app1_src",
+               "version":"preview",
+               "sourceRepository":"dummy/retail/app1_src.git",
+               "imageRepository":"retail/app1-src",
+               "runtime":"JAVA_11",
+               "error":null
+            }
+         },
+         {  
+            "alias":"app1-alias2",
+            "definition":{  
+               "name":"app1_src",
+               "version":"preview",
+               "sourceRepository":"dummy/retail/app1_src.git",
+               "imageRepository":"retail/app1-src",
+               "runtime":"JAVA_11",
+               "error":null
+            }
+         },
+         {  
+            "alias":"app2-alias",
+            "definition":{  
+               "name":"app2_src",
+               "version":"preview",
+               "sourceRepository":"dummy/retail/App2_src.git",
+               "imageRepository":"retail/app2-src",
+               "runtime":"JAVA_8",
+               "error":null
+            }
+         }
+      ],
+      "error":null
+   },
+   {  
+      "name":"product1",
+      "version":"0.2.0",
+      "productClass":"infrastructure",
+      "sourceRepository":"dummy/products/product1.git",
+      "deployToEnvironments":[  
+         {  
+            "name":"test1",
+            "version":"preview",
+            "autoStart":true,
+            "sourceRepository":"dummy/environments/test1.git",
+            "error":null
+         }
+      ],
+      "aliasedAppDefs":[  
+         {  
+            "alias":"app2-alias",
+            "definition":{  
+               "name":"app2_src",
+               "version":"0.1.0",
+               "sourceRepository":"dummy/retail/App2_src.git",
+               "imageRepository":"retail/app2-src",
+               "runtime":"JAVA_8",
+               "error":null
+            }
+         }
+      ],
+      "error":null
+   },
+   {  
+      "name":"product1",
+      "version":"0.1.0",
+      "productClass":null,
+      "sourceRepository":"dummy/products/product1.git",
+      "deployToEnvironments":[  
+
+      ],
+      "aliasedAppDefs":[  
+
+      ],
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+      }
+   },
+   {  
+      "name":"product1",
+      "version":"bad_tag0.1",
+      "productClass":null,
+      "sourceRepository":"dummy/products/product1.git",
+      "deployToEnvironments":[  
+
+      ],
+      "aliasedAppDefs":[  
+
+      ],
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+      }
+   }
+]

@@ -1,0 +1,12 @@
+store:
+  url: http://test:9090/store
+
+gitlab:
+  url: dummy
+  accessToken: dummy
+  environment-group: environments
+  product-group: products
+  products-to-ignore: >
+    demo
+    ^test*
+  

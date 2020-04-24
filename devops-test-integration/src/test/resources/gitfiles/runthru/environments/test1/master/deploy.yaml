@@ -1,0 +1,6 @@
+autoStart: true
+requiredProducts:
+- name: product1
+  version: 0.2.0
+- name: product2
+  version: preview

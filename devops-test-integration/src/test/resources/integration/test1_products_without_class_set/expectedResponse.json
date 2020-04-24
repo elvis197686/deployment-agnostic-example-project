@@ -1,0 +1,53 @@
+[  
+   {  
+      "name":"product1",
+      "version":"0.1.0",
+      "productClass":null,
+      "sourceRepository":"dummy/products/product1.git",
+      "deployToEnvironments":[  
+
+      ],
+      "aliasedAppDefs":[  
+
+      ],
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+      }
+   },
+   {  
+      "name":"product1",
+      "version":"bad_tag0.1",
+      "productClass":null,
+      "sourceRepository":"dummy/products/product1.git",
+      "deployToEnvironments":[  
+
+      ],
+      "aliasedAppDefs":[  
+
+      ],
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+      }
+   },
+   {  
+      "name":"product2",
+      "version":"preview",
+      "productClass":null,
+      "sourceRepository":"dummy/products/product2.git",
+      "deployToEnvironments":[  
+         {  
+            "name":"test1",
+            "version":"preview",
+            "autoStart":true,
+            "sourceRepository":"dummy/environments/test1.git",
+            "error":null
+         }
+      ],
+      "aliasedAppDefs":[  
+
+      ],
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: values.yaml"
+      }
+   }
+]

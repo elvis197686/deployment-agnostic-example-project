@@ -1,0 +1,10 @@
+app1-alias1:
+  image:
+    tag: preview
+app1-alias2:
+  image:
+    tag: 0.2.0
+app2-alias:
+  image:
+    tag: preview
+    

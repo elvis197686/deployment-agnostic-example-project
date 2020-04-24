@@ -1,0 +1,40 @@
+[  
+   {  
+      "name":"app1_src",
+      "version":"preview",
+      "sourceRepository":"dummy/retail/app1_src.git",
+      "imageRepository":"retail/app1-src",
+      "runtime":"JAVA_11",
+      "error":null
+   },
+   {  
+      "name":"app1_src",
+      "version":"0.2.0",
+      "sourceRepository":"dummy/retail/app1_src.git",
+      "imageRepository":null,
+      "runtime":"UNKNOWN",
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+      }
+   },
+   {  
+      "name":"app1_src",
+      "version":"0.1.0",
+      "sourceRepository":"dummy/retail/app1_src.git",
+      "imageRepository":null,
+      "runtime":"UNKNOWN",
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+      }
+   },
+   {  
+      "name":"app1_src",
+      "version":"bad_tag0.1",
+      "sourceRepository":"dummy/retail/app1_src.git",
+      "imageRepository":null,
+      "runtime":"UNKNOWN",
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+      }
+   }
+]

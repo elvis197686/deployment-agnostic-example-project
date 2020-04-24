@@ -1,0 +1,6 @@
+{
+	"inputDefinitionFilter": {
+		"name": "^app1_src$",
+		"version": "0.1.0"
+	}
+}

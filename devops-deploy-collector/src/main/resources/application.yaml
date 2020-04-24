@@ -1,0 +1,5 @@
+server:
+  port: 9993
+
+store:
+  url: http://localhost:9090/store

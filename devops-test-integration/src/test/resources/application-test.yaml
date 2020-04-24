@@ -1,0 +1,6 @@
+
+gitlab:
+  url: dummy
+  accessToken: dummy
+  environment-group: environments
+  product-group: products

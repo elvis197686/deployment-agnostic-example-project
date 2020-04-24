@@ -1,0 +1,7 @@
+initialise_on_startup: true
+
+gitlab:
+  url: dummy
+  accessToken: dummy
+  environment-group: environments
+  product-group: products

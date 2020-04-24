@@ -1,0 +1,34 @@
+[  
+   {  
+      "name":"test2",
+      "version":"preview",
+      "definition":{  
+         "name":"test2",
+         "version":"preview",
+         "autoStart":null,
+         "sourceRepository":"dummy/environments/test2.git",
+         "error":{  
+            "message":"Error whilst reading Gitlab project. Context: rokit.yaml"
+         }
+      },
+      "errors":[  
+         {  
+            "message":"Error whilst reading Gitlab project. Context: rokit.yaml"
+         }
+      ]
+   },
+   {  
+      "name":"test1",
+      "version":"preview",
+      "definition":{  
+         "name":"test1",
+         "version":"preview",
+         "autoStart":false,
+         "sourceRepository":"dummy/environments/test1.git",
+         "error":null
+      },
+      "errors":[  
+
+      ]
+   }
+]

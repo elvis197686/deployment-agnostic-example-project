@@ -1,0 +1,55 @@
+{
+  "object_kind": "push",
+  "before": "95790bf891e76fee5e1747ab589903a6a1f80f22",
+  "after": "da1560886d4f094c3e6c9ef40349f7d38b5d27d7",
+  "ref": "refs/heads/develop",
+  "checkout_sha": "da1560886d4f094c3e6c9ef40349f7d38b5d27d7",
+  "user_id": 4,
+  "user_name": "John Smith",
+  "user_username": "jsmith",
+  "user_email": "john@example.com",
+  "user_avatar": "https://s.gravatar.com/avatar/d4c74594d841139328695756648b6bd6?s=8://s.gravatar.com/avatar/d4c74594d841139328695756648b6bd6?s=80",
+  "project_id": 15,
+  "project":{
+    "id": 15,
+    "name":"product3",
+    "description":"",
+    "web_url":"http://gitlab/products/product3",
+    "avatar_url":null,
+    "git_ssh_url":"git@gitlab:products/product3.git",
+    "git_http_url":"http://gitlab/products/product3.git",
+    "namespace":"products",
+    "visibility_level":0,
+    "path_with_namespace":"products/product3",
+    "default_branch":"whatever",
+    "homepage":"http://gitlab/products/product3",
+    "url":"git@gitlab:products/product3.git",
+    "ssh_url":"git@gitlab:products/product3.git",
+    "http_url":"https://example.com"
+  },
+  "repository":{
+    "name": "product3",
+    "url": "git@gitlab:products/product3.git",
+    "description": "",
+    "homepage": "http://gitlab/products/product3",
+    "git_http_url":"http://gitlab/products/product3.git",
+    "git_ssh_url":"git@gitlab:products/product3.git",
+    "visibility_level":0
+  },
+  "commits": [
+    {
+      "id": "b6568db1bc1dcd7f8b4d5a946b0b91f9dacd7327",
+      "message": "Update!",
+      "timestamp": "2019-03-03T08:00:00",
+      "url": "http://gitlab/products/product3/commit/b6568db1bc1dcd7f8b4d5a946b0b91f9dacd7327",
+      "author": {
+        "name": "TIm Smith",
+        "email": "tismith@scm.com"
+      },
+      "added": [],
+      "modified": ["deploy.yaml","another_file.yaml"],
+      "removed": []
+    }
+  ],
+  "total_commits_count": 1
+}

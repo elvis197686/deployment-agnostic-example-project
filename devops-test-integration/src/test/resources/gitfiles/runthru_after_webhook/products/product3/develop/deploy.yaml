@@ -1,0 +1,13 @@
+name: product3
+productClass: infrastructure
+applications:
+- alias: app3-alias
+  definition:
+    name: app3
+    sourceRepository: "https://git.scm.com/retail/app3_src.git"
+
+requiredInfrastructure:
+- name: redis
+
+
+

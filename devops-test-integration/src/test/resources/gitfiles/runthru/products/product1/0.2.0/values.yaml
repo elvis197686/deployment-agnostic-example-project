@@ -1,0 +1,6 @@
+global:
+  product: product1
+app2-alias:
+  image:
+    tag: 0.1.0
+

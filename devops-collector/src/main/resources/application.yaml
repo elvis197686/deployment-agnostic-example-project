@@ -1,0 +1,6 @@
+server:
+  port: 9993
+
+gitlab:
+  products-to-ignore:
+  

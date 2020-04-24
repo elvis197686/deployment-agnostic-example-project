@@ -1,0 +1,5 @@
+dependencies:
+- name: base
+  alias: app2-alias
+  version: "*"
+  repository: "@nexus"

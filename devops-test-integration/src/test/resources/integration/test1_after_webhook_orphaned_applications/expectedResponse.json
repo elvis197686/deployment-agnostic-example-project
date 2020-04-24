@@ -1,0 +1,10 @@
+[  
+   {  
+      "name":"app4-not-in-product_src",
+      "version":"preview",
+      "sourceRepository":"dummy/retail/app4-not-in-product_src.git",
+      "imageRepository":"retail/app3-src",
+      "runtime":"NODE_10",
+      "error":null
+   }
+]

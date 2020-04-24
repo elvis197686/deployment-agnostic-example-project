@@ -1,0 +1,13 @@
+dependencies:
+- name: base
+  alias: app1-alias1
+  version: "*"
+  repository: "@nexus"
+- name: base
+  alias: app1-alias2
+  version: "*"
+  repository: "@nexus"
+- name: base
+  alias: app2-alias
+  version: "*"
+  repository: "@nexus"

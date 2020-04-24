@@ -1,0 +1,64 @@
+[  
+   {  
+      "name":"app1_src",
+      "version":"preview",
+      "sourceRepository":"dummy/retail/app1_src.git",
+      "imageRepository":"retail/app1-src",
+      "runtime":"NODE_10",
+      "error":null
+   },
+   {  
+      "name":"app1_src",
+      "version":"0.2.0",
+      "sourceRepository":"dummy/retail/app1_src.git",
+      "imageRepository":null,
+      "runtime":"UNKNOWN",
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: rokit.yaml"
+      }
+   },
+   {  
+      "name":"app2_src",
+      "version":"preview",
+      "sourceRepository":"dummy/retail/App2_src.git",
+      "imageRepository":null,
+      "runtime":"UNKNOWN",
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: rokit.yaml"
+      }
+   },
+   {  
+      "name":"app2_src",
+      "version":"0.1.0",
+      "sourceRepository":"dummy/retail/App2_src.git",
+      "imageRepository":"retail/app2-src",
+      "runtime":"JAVA_8",
+      "error":null
+   },
+   {  
+      "name":"app3_src",
+      "version":"preview",
+      "sourceRepository":"dummy/retail/app3_src.git",
+      "imageRepository":null,
+      "runtime":"UNKNOWN",
+      "error":{  
+         "message":"Error whilst reading Gitlab project. Context: rokit.yaml"
+      }
+   },
+   {  
+      "name":"app3_src",
+      "version":"0.1.0",
+      "sourceRepository":"dummy/retail/app3_src.git",
+      "imageRepository":"retail/app3-src",
+      "runtime":"NODE_10",
+      "error":null
+   },
+   {  
+      "name":"app4-not-in-product_src",
+      "version":"preview",
+      "sourceRepository":"dummy/retail/app4-not-in-product_src.git",
+      "imageRepository":"retail/app3-src",
+      "runtime":"NODE_10",
+      "error":null
+   }
+]

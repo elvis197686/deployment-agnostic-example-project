@@ -1,0 +1,9 @@
+{  
+   "name":"app1_src",
+   "version":"0.1.0",
+   "imageRepository":null,
+   "runtime":"UNKNOWN",
+   "error":{  
+      "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
+   }
+}

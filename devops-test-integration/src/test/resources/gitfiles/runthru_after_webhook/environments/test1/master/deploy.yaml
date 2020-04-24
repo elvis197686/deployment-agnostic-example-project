@@ -1,0 +1,9 @@
+autoStart: false
+requiredProducts:
+- name: product1
+  version: 0.3.0
+- name: product2
+  version: preview
+- name: product3
+  version: preview
+  

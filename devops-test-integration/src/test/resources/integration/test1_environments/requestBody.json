@@ -1,0 +1,7 @@
+{
+	"inputEnvironmentFilter": {
+		"name": "^test1$",
+		"includePreview": true,
+		"version": "*"
+	}
+}

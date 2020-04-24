@@ -1,0 +1,47 @@
+[  
+   {  
+      "name":"product1",
+      "version":"preview",
+      "productClass":"infrastructure",
+      "sourceRepository":"dummy/products/product1.git",
+      "deployToEnvironments":[  
+
+      ],
+      "aliasedAppDefs":[  
+         {  
+            "alias":"app1-alias1",
+            "definition":{  
+               "name":"app1_src",
+               "version":"preview",
+               "sourceRepository":"dummy/retail/app1_src.git",
+               "imageRepository":"retail/app1-src",
+               "runtime":"JAVA_11",
+               "error":null
+            }
+         },
+         {  
+            "alias":"app1-alias2",
+            "definition":{  
+               "name":"app1_src",
+               "version":"preview",
+               "sourceRepository":"dummy/retail/app1_src.git",
+               "imageRepository":"retail/app1-src",
+               "runtime":"JAVA_11",
+               "error":null
+            }
+         },
+         {  
+            "alias":"app2-alias",
+            "definition":{  
+               "name":"app2_src",
+               "version":"preview",
+               "sourceRepository":"dummy/retail/App2_src.git",
+               "imageRepository":"retail/app2-src",
+               "runtime":"JAVA_8",
+               "error":null
+            }
+         }
+      ],
+      "error":null
+   }
+]
