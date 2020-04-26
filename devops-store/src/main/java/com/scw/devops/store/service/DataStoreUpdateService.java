@@ -9,8 +9,6 @@ import java.util.Map.Entry;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Component;
-
 import com.scw.devops.contract.store.common.data.ApplicationDefinition;
 import com.scw.devops.contract.store.common.data.ApplicationDefinitionProcessor;
 import com.scw.devops.contract.store.common.data.ApplicationInstanceEntry;
@@ -21,15 +19,15 @@ import com.scw.devops.contract.store.common.data.EnvironmentDefinitionProcessor;
 import com.scw.devops.contract.store.common.data.MappableDefinitionReference;
 import com.scw.devops.contract.store.common.data.ProductDefinition;
 import com.scw.devops.contract.store.common.data.ProductDefinitionProcessor;
+import com.scw.devops.store.application.StoreAutowiring;
 import com.scw.devops.store.state.DataStore;
 
-@Component
 public class DataStoreUpdateService {
 
 	private final DataStore dataStore;
 
-	public DataStoreUpdateService(final DataStore dataStore) {
-		this.dataStore = dataStore;
+	public DataStoreUpdateService( final StoreAutowiring autowiring ) {
+		this.dataStore = autowiring.getDataStore();
 	}
 
 	public synchronized void addEnvironmentDefinition( final EnhancedEnvironmentDefinition p_enhancedEnvironmentDefinition ) throws Exception {

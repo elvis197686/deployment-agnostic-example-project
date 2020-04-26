@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import com.scw.devops.application.AutowiringProviderImpl;
 import com.scw.devops.contract.store.common.data.ApplicationDefinition;
 import com.scw.devops.contract.store.common.data.ApplicationDefinitionAssertions;
 import com.scw.devops.contract.store.common.data.ApplicationInstanceEntry;
@@ -17,6 +18,7 @@ import com.scw.devops.contract.store.common.data.DefinitionBase;
 import com.scw.devops.contract.store.common.data.ProductDefinitionProcessor;
 import com.scw.devops.contract.store.common.data.ProjectVersion;
 import com.scw.devops.contract.store.query.data.VersionQuery;
+import com.scw.devops.store.application.StoreAutowiring;
 import com.scw.devops.store.service.DataStoreQueryService;
 import com.scw.devops.store.service.DataStoreUpdateService;
 import com.scw.devops.store.state.DataStore;
@@ -30,10 +32,12 @@ public class DataStoreApplicationTest {
 	private static final String PRODUCT_1_NAME = "product1";
 	private static final String DEFAULT_APPLICATION_NAME = "app1";
 
+	private static final StoreAutowiring autowirer = new AutowiringProviderImpl();
+
 	@Test
 	public void shouldPutPreviewAtStart() throws Exception {
 		DataStore store = new DataStore();
-		DataStoreUpdateService writer = new DataStoreUpdateService(store);
+		DataStoreUpdateService writer = new DataStoreUpdateService( autowirer );
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("0.3.0", false));
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("0.1.0", false));
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("preview", true));
@@ -54,7 +58,7 @@ public class DataStoreApplicationTest {
 	@Test
 	public void shouldPutInvalidVersionsAtEnd() throws Exception {
 		DataStore store = new DataStore();
-		DataStoreUpdateService writer = new DataStoreUpdateService(store);
+		DataStoreUpdateService writer = new DataStoreUpdateService( autowirer );
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("0.3.0", false));
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("0.1.0", false));
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("badVersion0.2.0", false));
@@ -78,7 +82,7 @@ public class DataStoreApplicationTest {
 		ApplicationDefinition olderReleaseDefinition = applicationDefinitionWithVersion("0.1.0", false);
 
 		DataStore store = new DataStore();
-		DataStoreUpdateService writer = new DataStoreUpdateService(store);
+		DataStoreUpdateService writer = new DataStoreUpdateService( autowirer );
 		writer.addApplicationDefinition(previewDefinition);
 		writer.addApplicationDefinition(highestReleaseDefinition);
 		writer.addApplicationDefinition(olderReleaseDefinition);
@@ -98,7 +102,7 @@ public class DataStoreApplicationTest {
 		ApplicationDefinition olderReleaseDefinition = applicationDefinitionWithVersion("0.1.0", false);
 
 		DataStore store = new DataStore();
-		DataStoreUpdateService writer = new DataStoreUpdateService(store);
+		DataStoreUpdateService writer = new DataStoreUpdateService( autowirer );
 		writer.addApplicationDefinition(previewDefinition);
 		writer.addApplicationDefinition(highestReleaseDefinition);
 		writer.addApplicationDefinition(olderReleaseDefinition);
@@ -119,7 +123,7 @@ public class DataStoreApplicationTest {
 		ApplicationDefinition olderReleaseDefinition = applicationDefinitionWithVersion("0.1.0", false);
 
 		DataStore store = new DataStore();
-		DataStoreUpdateService writer = new DataStoreUpdateService(store);
+		DataStoreUpdateService writer = new DataStoreUpdateService( autowirer );
 		writer.addApplicationDefinition(previewDefinition);
 		writer.addApplicationDefinition(highestReleaseDefinition);
 		writer.addApplicationDefinition(olderReleaseDefinition);

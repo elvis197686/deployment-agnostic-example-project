@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Component;
-
 import com.scw.devops.contract.store.common.data.ApplicationDefinition;
 import com.scw.devops.contract.store.common.data.EnhancedEnvironmentDefinition;
 import com.scw.devops.contract.store.common.data.MappableDefinitionReference;
@@ -17,7 +15,6 @@ import com.scw.devops.contract.store.common.data.MappableSortableProjectVersion;
 import com.scw.devops.contract.store.common.data.ProductDefinition;
 import com.scw.devops.contract.store.common.data.ProjectVersion;
 
-@Component
 public class DataStore {
 
 	private final Map<String, Map<MappableSortableProjectVersion, EnhancedEnvironmentDefinition>> environmentsByVersionByName = new HashMap<>();

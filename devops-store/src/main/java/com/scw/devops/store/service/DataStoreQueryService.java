@@ -10,8 +10,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.stereotype.Component;
-
 import com.scw.devops.contract.store.common.data.ApplicationDefinition;
 import com.scw.devops.contract.store.common.data.ApplicationDefinitionProcessor;
 import com.scw.devops.contract.store.common.data.ApplicationInstanceEntry;
@@ -28,7 +26,6 @@ import com.scw.devops.contract.store.query.data.VersionQuery;
 import com.scw.devops.contract.store.query.data.VersionQueryProcessor;
 import com.scw.devops.store.state.DataStore;
 
-@Component
 public class DataStoreQueryService {
 
 	private final DataStore dataStore;
