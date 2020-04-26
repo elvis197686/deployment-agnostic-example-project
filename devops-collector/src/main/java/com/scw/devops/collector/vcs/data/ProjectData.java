@@ -26,19 +26,19 @@ public class ProjectData {
 	private final String projectName;
 	private final String branchOrTagName;
 	private final boolean isPreview;
-	private final DeployYaml rokitYaml;
+	private final DeployYaml deployYaml;
 	private final ValuesYaml valuesYaml;
 	private final RequirementsYaml requirementsYaml;
 	private final Exception projectError;
 
 	public ProjectData(final RepositoryType repositoryType, final String projectName, final String branchOrTagName,
-			final boolean isPreview, final DeployYaml rokitYaml, final ValuesYaml valuesYaml,
+			final boolean isPreview, final DeployYaml deployYaml, final ValuesYaml valuesYaml,
 			final RequirementsYaml requirementsYaml) {
 		this.repositoryType = repositoryType;
 		this.projectName = projectName;
 		this.branchOrTagName = branchOrTagName;
 		this.isPreview = isPreview;
-		this.rokitYaml = rokitYaml;
+		this.deployYaml = deployYaml;
 		this.valuesYaml = valuesYaml;
 		this.requirementsYaml = requirementsYaml;
 		this.projectError = null;
@@ -50,7 +50,7 @@ public class ProjectData {
 		this.projectName = projectName;
 		this.branchOrTagName = branchOrTagName;
 		this.isPreview = isPreview;
-		this.rokitYaml = null;
+		this.deployYaml = null;
 		this.valuesYaml = null;
 		this.requirementsYaml = null;
 		this.projectError = projectError;
@@ -63,7 +63,7 @@ public class ProjectData {
 				new DefinitionBase(this.projectName, new ProjectVersion(this.branchOrTagName, this.isPreview),
 						constructArbitraryEnvironmentProperties(), constructHttpUrl(gitlabUrl, groupName, projectName),
 						constructErrorList()),
-				(rokitYaml == null) ? Arrays.asList() : rokitYaml.transformProductReferences());
+				(deployYaml == null) ? Arrays.asList() : deployYaml.transformProductReferences());
 		return definition;
 	}
 
@@ -87,8 +87,8 @@ public class ProjectData {
 	}
 
 	public List<RepositoryLocation> getApplicationRepositories() {
-		if (rokitYaml != null) {
-			return rokitYaml.getApplicationSourceRepositories();
+		if (deployYaml != null) {
+			return deployYaml.getApplicationSourceRepositories();
 		}
 
 		return Arrays.asList();
@@ -100,13 +100,13 @@ public class ProjectData {
 
 	@Override
 	public String toString() {
-		return "ProjectData [repositoryType=" + repositoryType + ", branchOrTagName=" + branchOrTagName + ", rokitYaml="
-				+ rokitYaml + ", requirementsYaml=" + requirementsYaml + ", projectError=" + projectError + "]";
+		return "ProjectData [repositoryType=" + repositoryType + ", branchOrTagName=" + branchOrTagName +
+			   ", deployYaml=" + deployYaml + ", requirementsYaml=" + requirementsYaml + ", projectError=" + projectError + "]";
 	}
 
 	private Collection<ApplicationInstanceEntry> getApplicationInstancesWithVersion(final boolean isPreviewProduct) {
-		Collection<RepositoryApplicationInstanceEntry> entriesWithoutVersion = ( rokitYaml == null ) ? Arrays.asList()
-				: rokitYaml.transformApplications();
+		Collection<RepositoryApplicationInstanceEntry> entriesWithoutVersion = ( deployYaml == null ) ? Arrays.asList()
+				: deployYaml.transformApplications();
 		return entriesWithoutVersion.stream().map(e -> addVersion(e, isPreviewProduct)).collect(Collectors.toList());
 	}
 
@@ -119,7 +119,7 @@ public class ProjectData {
 	private Map<String, Object> constructArbitraryEnvironmentProperties() {
 		// Just autoStart at the moment, but anything that is a straight property is a
 		// candidate to add to this list
-		return this.rokitYaml == null ? new HashMap<>() : this.rokitYaml.getAdditionalProperties();
+		return this.deployYaml == null ? new HashMap<>() : this.deployYaml.getAdditionalProperties();
 	}
 
 	private Collection<ConfigurationError> constructErrorList() {

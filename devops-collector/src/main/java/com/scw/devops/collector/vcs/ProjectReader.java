@@ -42,10 +42,10 @@ public class ProjectReader {
 
 	public void collectFiles(final String projectName, final String branchOrTagName, final boolean isPreview,
 			final Consumer<ProjectData> projectConsumer) {
-		String errorContext = "rokit.yaml";
+		String errorContext = "deploy.yaml";
 		ProjectData foundProjectData = null;
 		try {
-			DeployYaml rokitYamlContents = yamlObjectMapper
+			DeployYaml deployYamlContents = yamlObjectMapper
 				.readValue( fileReader.getFileContents( project, branchOrTagName, DEPLOYMENT_METADATA_FILE ), DeployYaml.class );
 			ValuesYaml valuesYamlContents = null;
 			RequirementsYaml requirementsYamlContents = null;
@@ -60,7 +60,9 @@ public class ProjectReader {
 			}
 			errorContext = "ingestion";
 			foundProjectData = new ProjectData(repositoryType, projectName, branchOrTagName, isPreview,
-					rokitYamlContents, valuesYamlContents, requirementsYamlContents);
+												deployYamlContents,
+												valuesYamlContents,
+												requirementsYamlContents );
 		} catch (Exception e) {
 			String errorMessage = "Error whilst reading Gitlab project. Context: " + errorContext;
 			logger.warn(errorMessage, e);

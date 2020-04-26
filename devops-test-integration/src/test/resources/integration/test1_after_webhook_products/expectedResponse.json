@@ -39,7 +39,7 @@
                "imageRepository":null,
                "runtime":"UNKNOWN",
                "error":{  
-                  "message":"Error whilst reading Gitlab project. Context: rokit.yaml"
+                  "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
                }
             }
          }
@@ -81,7 +81,7 @@
                "imageRepository":null,
                "runtime":"UNKNOWN",
                "error":{  
-                  "message":"Error whilst reading Gitlab project. Context: rokit.yaml"
+                  "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
                }
             }
          },
@@ -94,7 +94,7 @@
                "imageRepository":null,
                "runtime":"UNKNOWN",
                "error":{  
-                  "message":"Error whilst reading Gitlab project. Context: rokit.yaml"
+                  "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
                }
             }
          }
@@ -146,7 +146,7 @@
                "imageRepository":null,
                "runtime":"UNKNOWN",
                "error":{  
-                  "message":"Error whilst reading Gitlab project. Context: rokit.yaml"
+                  "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
                }
             }
          }

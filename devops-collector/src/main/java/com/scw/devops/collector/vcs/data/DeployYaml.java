@@ -171,7 +171,8 @@ public class DeployYaml {
 
 	@Override
 	public String toString() {
-		return "RokitYaml [version=" + version + ", applications=" + applications + ", requiredInfrastructure="
+		return "DeployYaml [version=" + version + ", applications=" + applications +
+			   ", requiredInfrastructure="
 				+ requiredInfrastructure + ", additionalProperties=" + additionalProperties + "]";
 	}
 

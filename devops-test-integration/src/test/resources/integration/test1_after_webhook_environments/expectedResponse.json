@@ -8,12 +8,12 @@
          "autoStart":null,
          "sourceRepository":"dummy/environments/test2.git",
          "error":{  
-            "message":"Error whilst reading Gitlab project. Context: rokit.yaml"
+            "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
          }
       },
       "errors":[  
          {  
-            "message":"Error whilst reading Gitlab project. Context: rokit.yaml"
+            "message":"Error whilst reading Gitlab project. Context: deploy.yaml"
          }
       ]
    },
