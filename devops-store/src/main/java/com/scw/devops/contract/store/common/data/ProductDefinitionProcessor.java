@@ -14,7 +14,7 @@ public class ProductDefinitionProcessor {
 	}
 
 	public static MappableSortableProjectVersion getVersion( final ProductDefinition definition ) {
-		return new MappableSortableProjectVersion(definition.base.version, definition.base.version.version);
+		return new MappableSortableProjectVersion( definition.base.version );
 	}
 
 	public static MappableDefinitionReference getDefinitionReference( final ProductDefinition definition ) {

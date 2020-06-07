@@ -1,6 +1,7 @@
 package com.scw.devops.collector.domain;
 
 import com.scw.devops.contract.store.common.data.ApplicationInstanceEntry;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 
 public class RepositoryApplicationInstanceEntry {
 
@@ -17,7 +18,7 @@ public class RepositoryApplicationInstanceEntry {
 		return alias;
 	}
 
-	public ApplicationInstanceEntry transformTo( final String versionString ) {
-		return new ApplicationInstanceEntry( alias, repoName, RepositoryProjectVersion.fromSingleString( versionString ) );
+	public ApplicationInstanceEntry transformTo( final ProjectVersion projectVersion ) {
+		return new ApplicationInstanceEntry( alias, repoName, projectVersion );
 	}
 }

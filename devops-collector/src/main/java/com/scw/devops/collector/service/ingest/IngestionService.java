@@ -1,12 +1,9 @@
 package com.scw.devops.collector.service.ingest;
 
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import com.scw.devops.collector.config.GitlabConfiguration;
-import com.scw.devops.collector.config.GitlabConnectionConfiguration;
-import com.scw.devops.collector.vcs.data.ProjectData;
+import com.scw.devops.collector.application.CollectorAutowiring;
+import com.scw.devops.collector.domain.ProjectData;
 import com.scw.devops.contract.store.common.data.ApplicationDefinition;
 import com.scw.devops.contract.store.common.data.EnvironmentDefinition;
 import com.scw.devops.contract.store.common.data.ProductDefinition;
@@ -15,7 +12,6 @@ import com.scw.devops.contract.store.update.command.AddApplicationDefinitionComm
 import com.scw.devops.contract.store.update.command.AddEnvironmentDefinitionCommand;
 import com.scw.devops.contract.store.update.command.AddProductDefinitionCommand;
 
-@Service
 public class IngestionService {
 	private final DataStoreUpdater dataStoreUpdater;
 	private final String environmentGroupName;
@@ -23,14 +19,12 @@ public class IngestionService {
 	private final String gitlabUrl;
 	private final Logger logger;
 
-	@Autowired
-	public IngestionService(final DataStoreUpdater dataStoreUpdater, final GitlabConfiguration gitlabConfiguration,
-			final GitlabConnectionConfiguration gitlabConnectionConfiguration, final Logger logger) {
-		this.dataStoreUpdater = dataStoreUpdater;
-		this.environmentGroupName = gitlabConfiguration.getEnvironmentGroupName();
-		this.productGroupName = gitlabConfiguration.getProductGroupName();
-		this.gitlabUrl = gitlabConnectionConfiguration.getGitlabUrl();
-		this.logger = logger;
+	public IngestionService( final CollectorAutowiring autowiring ) {
+		this.dataStoreUpdater = autowiring.getDataStoreUpdater();
+		this.environmentGroupName = autowiring.getGitlabConfiguration().getEnvironmentGroupName();
+		this.productGroupName = autowiring.getGitlabConfiguration().getProductGroupName();
+		this.gitlabUrl = autowiring.getGitlabConnectionConfiguration().getGitlabUrl();
+		this.logger = autowiring.getLogger();
 	}
 
 	public void addEnvironment(final ProjectData environmentGitlabData) {

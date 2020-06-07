@@ -25,7 +25,7 @@ public class EnhancedEnvironmentDefinition {
 	}
 
 	public MappableSortableProjectVersion getVersion() {
-		return new MappableSortableProjectVersion( originalDefinition.base.version, originalDefinition.base.version.version );
+		return new MappableSortableProjectVersion( originalDefinition.base.version );
 	}
 
 	public static EnhancedEnvironmentDefinition transform( final EnvironmentDefinition def ) {
@@ -33,7 +33,7 @@ public class EnhancedEnvironmentDefinition {
 	}
 
 	private static EnhancedEnvironmentProductDefinitionReference transform( final EnvironmentProductDefinitionReference defRef ) {
-		return new EnhancedEnvironmentProductDefinitionReference( defRef, ProjectVersionWithWildcard.fromSingleString( defRef.version.version ) );
+		return new EnhancedEnvironmentProductDefinitionReference( defRef, ProjectVersionWithWildcard.fromVersion( defRef.version ) );
 	}
 
 	public EnvironmentDefinition getOriginalDefinition() {
@@ -41,6 +41,6 @@ public class EnhancedEnvironmentDefinition {
 	}
 
 	public boolean isPreviewVersion() {
-		return originalDefinition.base.version.isPreview;
+		return originalDefinition.base.version.isPreview();
 	}
 }

@@ -4,12 +4,13 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.BeforeEach;
 
+import com.scw.devops.application.AutowiringProviderImpl;
 import com.scw.devops.contract.store.common.data.ApplicationDefinition;
 import com.scw.devops.contract.store.common.data.DefinitionBase;
 import com.scw.devops.contract.store.common.data.EnvironmentDefinition;
 import com.scw.devops.contract.store.common.data.ProductDefinition;
-import com.scw.devops.contract.store.common.data.ProjectVersion;
 import com.scw.devops.contract.store.query.DataStoreReader;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 
 public class DefinitionQueryTest {
 
@@ -18,9 +19,12 @@ public class DefinitionQueryTest {
 	DataStoreReader reader = mock(DataStoreReader.class);
 	ProductResolver productResolver = mock(ProductResolver.class);
 
+	AutowiringProviderImpl queryAutowiring;
+
 	@BeforeEach
 	public void setup() {
-		objectUnderTest = new DefinitionQuery(reader, productResolver);
+		queryAutowiring = new AutowiringProviderImpl( reader, productResolver );
+		objectUnderTest = new DefinitionQuery( queryAutowiring );
 	}
 	// TODO
 	//
@@ -217,7 +221,8 @@ public class DefinitionQueryTest {
 
 	private EnvironmentDefinition environmentDefinitionWithName(final String envName) {
 		return new EnvironmentDefinition(
-				new DefinitionBase(envName, new ProjectVersion("preview", true), null, "arepo", null), null);
+										  new DefinitionBase( envName, ProjectVersion.previewVersion(), null, "arepo", null ),
+										  null );
 	}
 
 	private EnvironmentDefinition environmentDefinitionWithAutoStart(final String name, final boolean autoStart) {
@@ -228,19 +233,27 @@ public class DefinitionQueryTest {
 	}
 
 	private ProductDefinition productDefinitionWithName(final String name) {
-		return new ProductDefinition(new DefinitionBase(name, new ProjectVersion("previww", true), null, "arepo", null),
+		return new ProductDefinition( new DefinitionBase( name,
+														  ProjectVersion.previewVersion(),
+														  null,
+														  "arepo",
+														  null ),
 				null);
 	}
 
 	private ApplicationDefinition applicationDefinitionWithNameAndVersion(final String name, final String version,
 			final boolean isPreview) {
 		return new ApplicationDefinition(
-				new DefinitionBase(name, new ProjectVersion(version, isPreview), null, "arepo", null));
+										  new DefinitionBase( name,
+															  isPreview ? ProjectVersion.previewVersion() : ProjectVersion.namedVersion( version ),
+															  null,
+															  "arepo",
+															  null ) );
 	}
 
 	private ApplicationDefinition applicationDefinitionWithName(final String name) {
 		return new ApplicationDefinition(
-				new DefinitionBase(name, new ProjectVersion("previww", true), null, "arepo", null));
+										  new DefinitionBase( name, ProjectVersion.previewVersion(), null, "arepo", null ) );
 	}
 
 	private ApplicationDefinition applicationDefinitionWithErrors(final String name) {

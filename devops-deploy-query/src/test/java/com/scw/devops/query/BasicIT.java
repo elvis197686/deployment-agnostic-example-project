@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,13 +32,13 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.scw.devops.contract.query.data.StandardQueryInputFilter;
 import com.scw.devops.contract.store.common.data.ApplicationDefinition;
 import com.scw.devops.contract.store.common.data.DefinitionBase;
-import com.scw.devops.contract.store.common.data.ProjectVersion;
 import com.scw.devops.contract.store.query.command.OutputApplicationDefinitions;
 import com.scw.devops.contract.store.query.data.VersionQuery;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 import com.scw.devops.query.controller.request.StandardQueryBody;
-import com.scw.devops.query.controller.request.StandardQueryInputFilter;
 
 // NOTE: Must be in same package as Application class, other you get missing @SpringBootConfiguration errors
 @ExtendWith( SpringExtension.class )
@@ -65,7 +66,7 @@ public class BasicIT {
 		VersionQuery versionQuery = new VersionQuery();
 		versionQuery.versionLimit = 2;
 		OutputApplicationDefinitions result = new OutputApplicationDefinitions( Arrays
-			.asList( new ApplicationDefinition( new DefinitionBase( "name", new ProjectVersion( "1", false ), null, "sourceRepo", null ) ) ) );
+			.asList( new ApplicationDefinition( new DefinitionBase( "name", ProjectVersion.namedVersion( "1" ), null, "sourceRepo", null ) ) ) );
 
 		String responseString = serialise( result );
 		mockServer.expect( ExpectedCount.once(), MockRestRequestMatchers.requestTo( new URI( "http://test:9090/store/query" ) ) )
@@ -75,9 +76,10 @@ public class BasicIT {
 				.body( responseString ) );
 
 		String responseJson = post( "/applications",
-									serialise( new StandardQueryBody( new StandardQueryInputFilter( "a*", null, true, null, null ) ) ) );
+									serialise( new StandardQueryBody( new StandardQueryInputFilter( Optional
+										.of( "a*" ), Optional.empty(), Optional.of( true ), Optional.empty(), Optional.empty() ) ) ) );
 
-		String expectedJson = "[{\"name\":\"name\",\"version\":\"1\",\"sourceRepository\":\"sourceRepo\",\"imageRepository\":null,\"runtime\":\"UNKNOWN\",\"error\":null}]";
+		String expectedJson = "{\"apps\":[{\"name\":\"name\",\"version\":\"1\",\"sourceRepository\":\"sourceRepo\",\"imageRepository\":null,\"applicationRuntime\":\"UNKNOWN\",\"error\":null}]}";
 
 		// Note the order is not important
 		mockServer.verify();

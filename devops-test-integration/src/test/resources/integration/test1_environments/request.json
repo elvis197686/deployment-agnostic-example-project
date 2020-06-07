@@ -1,0 +1,10 @@
+{
+   "type":"com.scw.devops.contract.query.command.GetEnvironmentsCommand",
+   "versionLimit":"10",
+   "queryFilter":{
+      "name":"^test1$",
+      "version":"*",
+      "includePreview":true
+   },
+   "result":null
+}

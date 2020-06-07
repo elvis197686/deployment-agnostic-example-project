@@ -1,18 +1,39 @@
 package com.scw.devops.test.integration;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.ComponentScan;
+import com.scw.devops.application.AutowiringProviderImpl;
+import com.scw.devops.collector.application.AccessCoordinator;
+import com.scw.devops.contract.collector.command.IngestAllDataCommand;
+import com.scw.devops.contract.collector.data.OutputIngestionRequest;
+import com.scw.devops.contract.collector.data.OutputIngestionRequestProcessor;
+import com.scw.devops.contract.query.command.DevopsQueryCommand;
+import com.scw.devops.contract.query.command.DevopsQueryCommandResult;
+import com.scw.devops.query.service.DefinitionQuery;
+import com.scw.devops.test.integration.config.ResourceFolderGateway;
+import com.scw.devops.test.integration.contract.collector.CollectorAccessImpl;
+import com.scw.devops.test.integration.contract.query.DevopsQueryImpl;
 
-// We must use Spring as that has flexible testing, DI and config, which isn't offered to the same quality in any other projects
-@SpringBootApplication
-@ComponentScan( basePackages = { "com.scw.devops.collector", "com.scw.devops.store", "com.scw.devops.query",
-								 "com.scw.devops.test.integration.config", "com.scw.devops.test.integration.contract.store" } )
 public class Application {
 
-    public static void main(final String[] args) {
-        new SpringApplicationBuilder(Application.class)
-            .run(args);
-    }
+	private final CollectorAccessImpl collectorApi;
+	private final DevopsQueryImpl queryApi;
+	private final ResourceFolderGateway ingestionConfig;
+
+	public Application() {
+		AutowiringProviderImpl autowiring = new AutowiringProviderImpl();
+		collectorApi = new CollectorAccessImpl( new AccessCoordinator( autowiring ) );
+		queryApi = new DevopsQueryImpl( new DefinitionQuery( autowiring ) );
+		ingestionConfig = autowiring.getGitlabGateway();
+	}
+
+	public void ingestAll( final String projectDirectory ) throws Throwable {
+		ingestionConfig.setProjectDirectory( projectDirectory );
+		IngestAllDataCommand ingestAll = new IngestAllDataCommand();
+		OutputIngestionRequest result = (OutputIngestionRequest) collectorApi.doCommand( ingestAll );
+		OutputIngestionRequestProcessor.processResult( result );
+	}
+
+	public DevopsQueryCommandResult doQuery( final DevopsQueryCommand request ) {
+		return queryApi.doCommand( request );
+	}
 
 }

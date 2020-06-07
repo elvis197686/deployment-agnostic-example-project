@@ -3,14 +3,14 @@ package com.scw.devops.contract.store.common.data;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.scw.devops.query.controller.response.Environment;
-import com.scw.devops.query.controller.response.EnvironmentDef;
+import com.scw.devops.contract.query.data.Environment;
+import com.scw.devops.contract.query.data.EnvironmentDef;
 
 public class ClientEnvironmentDefinitionTransformer {
 
 	public static Environment transformTo( final EnvironmentDefinition def ) {
 		return new Environment( def.base.name,
-								SharedProjectVersionProcessor
+								ClientProjectVersionFormatter
 									.getSingleVersionString( def.base.version ),
 								transformToDefinition( def ),
 								ClientConfigurationErrorDataTransformer.transformTo( def.base.errors ) );
@@ -18,7 +18,8 @@ public class ClientEnvironmentDefinitionTransformer {
 
 	public static EnvironmentDef transformToDefinition( final EnvironmentDefinition def ) {
 		EnvironmentDef response = new EnvironmentDef( def.base.name,
-													  SharedProjectVersionProcessor.getSingleVersionString( def.base.version ),
+													  ClientProjectVersionFormatter
+														  .getSingleVersionString( def.base.version ),
 													  ClientEnvironmentDefinitionProcessor
 														  .getAutoStart( def ),
 													  def.base.sourceRepository,

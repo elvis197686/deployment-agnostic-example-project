@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.scw.devops.application.AutowiringProviderImpl;
@@ -16,8 +17,8 @@ import com.scw.devops.contract.store.common.data.ApplicationDefinitionAssertions
 import com.scw.devops.contract.store.common.data.ApplicationInstanceEntry;
 import com.scw.devops.contract.store.common.data.DefinitionBase;
 import com.scw.devops.contract.store.common.data.ProductDefinitionProcessor;
-import com.scw.devops.contract.store.common.data.ProjectVersion;
 import com.scw.devops.contract.store.query.data.VersionQuery;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 import com.scw.devops.store.application.StoreAutowiring;
 import com.scw.devops.store.service.DataStoreQueryService;
 import com.scw.devops.store.service.DataStoreUpdateService;
@@ -32,7 +33,12 @@ public class DataStoreApplicationTest {
 	private static final String PRODUCT_1_NAME = "product1";
 	private static final String DEFAULT_APPLICATION_NAME = "app1";
 
-	private static final StoreAutowiring autowirer = new AutowiringProviderImpl();
+	private static StoreAutowiring autowirer = null;
+
+	@BeforeEach
+	public void init() {
+		autowirer = new AutowiringProviderImpl();
+	}
 
 	@Test
 	public void shouldPutPreviewAtStart() throws Exception {
@@ -43,7 +49,7 @@ public class DataStoreApplicationTest {
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("preview", true));
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("0.4.0", false));
 
-		DataStoreQueryService reader = new DataStoreQueryService(store);
+		DataStoreQueryService reader = new DataStoreQueryService( autowirer );
 		List<ApplicationDefinition> resultingVersions = reader
 				.getAllApplicationDefinitions(versionQueryWithPreview(true));
 		ApplicationDefinitionAssertions.assertVersions( resultingVersions );
@@ -57,14 +63,13 @@ public class DataStoreApplicationTest {
 
 	@Test
 	public void shouldPutInvalidVersionsAtEnd() throws Exception {
-		DataStore store = new DataStore();
 		DataStoreUpdateService writer = new DataStoreUpdateService( autowirer );
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("0.3.0", false));
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("0.1.0", false));
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("badVersion0.2.0", false));
 		writer.addApplicationDefinition(applicationDefinitionWithVersion("0.4.0", false));
 
-		DataStoreQueryService reader = new DataStoreQueryService(store);
+		DataStoreQueryService reader = new DataStoreQueryService( autowirer );
 		List<ApplicationDefinition> resultingVersions = reader
 				.getAllApplicationDefinitions(versionQueryWithPreview(true));
 		Assert.assertThat(resultingVersions.size(), is(4));
@@ -81,13 +86,12 @@ public class DataStoreApplicationTest {
 		ApplicationDefinition highestReleaseDefinition = applicationDefinitionWithVersion("0.2.0", false);
 		ApplicationDefinition olderReleaseDefinition = applicationDefinitionWithVersion("0.1.0", false);
 
-		DataStore store = new DataStore();
 		DataStoreUpdateService writer = new DataStoreUpdateService( autowirer );
 		writer.addApplicationDefinition(previewDefinition);
 		writer.addApplicationDefinition(highestReleaseDefinition);
 		writer.addApplicationDefinition(olderReleaseDefinition);
 
-		DataStoreQueryService reader = new DataStoreQueryService(store);
+		DataStoreQueryService reader = new DataStoreQueryService( autowirer );
 		Optional<ApplicationDefinition> foundDefinition = reader.getPreviousApplicationDefinition(previewDefinition);
 
 		Assert.assertTrue(foundDefinition.isPresent());
@@ -101,13 +105,12 @@ public class DataStoreApplicationTest {
 		ApplicationDefinition highestReleaseDefinition = applicationDefinitionWithVersion("0.2.0", false);
 		ApplicationDefinition olderReleaseDefinition = applicationDefinitionWithVersion("0.1.0", false);
 
-		DataStore store = new DataStore();
 		DataStoreUpdateService writer = new DataStoreUpdateService( autowirer );
 		writer.addApplicationDefinition(previewDefinition);
 		writer.addApplicationDefinition(highestReleaseDefinition);
 		writer.addApplicationDefinition(olderReleaseDefinition);
 
-		DataStoreQueryService reader = new DataStoreQueryService(store);
+		DataStoreQueryService reader = new DataStoreQueryService( autowirer );
 		Optional<ApplicationDefinition> foundDefinition = reader
 				.getPreviousApplicationDefinition(highestReleaseDefinition);
 
@@ -122,13 +125,12 @@ public class DataStoreApplicationTest {
 		ApplicationDefinition highestReleaseDefinition = applicationDefinitionWithVersion("0.2.0", false);
 		ApplicationDefinition olderReleaseDefinition = applicationDefinitionWithVersion("0.1.0", false);
 
-		DataStore store = new DataStore();
 		DataStoreUpdateService writer = new DataStoreUpdateService( autowirer );
 		writer.addApplicationDefinition(previewDefinition);
 		writer.addApplicationDefinition(highestReleaseDefinition);
 		writer.addApplicationDefinition(olderReleaseDefinition);
 
-		DataStoreQueryService reader = new DataStoreQueryService(store);
+		DataStoreQueryService reader = new DataStoreQueryService( autowirer );
 		Optional<ApplicationDefinition> foundDefinition = reader
 				.getPreviousApplicationDefinition(olderReleaseDefinition);
 
@@ -210,13 +212,20 @@ public class DataStoreApplicationTest {
 
 	private ApplicationDefinition applicationDefinitionWithVersion(final String version, final boolean isPreview) {
 		return new ApplicationDefinition(new DefinitionBase(DEFAULT_APPLICATION_NAME,
-				new ProjectVersion(version, isPreview), null, "arepo", null));
+															  isPreview ? ProjectVersion.previewVersion() : ProjectVersion.namedVersion( version ),
+															  null,
+															  "arepo",
+															  null ) );
 	}
 
 	private ApplicationDefinition applicationDefinitionWithNameAndVersion(final String name, final String version,
 			final boolean isPreview) {
 		return new ApplicationDefinition(
-				new DefinitionBase(name, new ProjectVersion(version, isPreview), null, "arepo", null));
+										  new DefinitionBase( name,
+															  isPreview ? ProjectVersion.previewVersion() : ProjectVersion.namedVersion( version ),
+															  null,
+															  "arepo",
+															  null ) );
 	}
 
 	private ProductDefinitionProcessor productDefinitionWithVersionAndApplications(final String productName, final String version,

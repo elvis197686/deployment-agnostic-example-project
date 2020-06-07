@@ -2,7 +2,7 @@ store:
   url: http://test:9090/store
 
 gitlab:
-  url: dummy
+  url: http://dummy
   accessToken: dummy
   environment-group: environments
   product-group: products

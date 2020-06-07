@@ -1,4 +1,5 @@
-[  
+{
+   "environments":[  
    {  
       "name":"test1",
       "version":"preview",
@@ -63,4 +64,4 @@
          }
       ]
    }
-]
+]}

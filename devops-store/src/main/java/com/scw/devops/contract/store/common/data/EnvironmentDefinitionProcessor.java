@@ -14,7 +14,7 @@ public class EnvironmentDefinitionProcessor {
 	}
 
 	public static MappableSortableProjectVersion getVersion( final EnhancedEnvironmentDefinition definition ) {
-		return new MappableSortableProjectVersion(definition.originalDefinition.base.version, definition.originalDefinition.base.version.version);
+		return new MappableSortableProjectVersion( definition.originalDefinition.base.version );
 	}
 
 }

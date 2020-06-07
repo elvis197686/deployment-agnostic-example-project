@@ -3,15 +3,13 @@ package com.scw.devops.application;
 import com.scw.devops.store.application.StoreAutowiring;
 import com.scw.devops.store.state.DataStore;
 
-public class AutowiringProviderImpl extends StoreAutowiring {
+public class AutowiringProviderImpl implements StoreAutowiring {
 
-	public static AutowiringProviderImpl getProvider() {
-		return new AutowiringProviderImpl();
-	}
+	private DataStore dataStore = new DataStore();
 
 	@Override
 	public DataStore getDataStore() {
-		return new DataStore();
+		return dataStore;
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.scw.devops.contract.store.common.data;
 
-import com.scw.devops.query.controller.response.ApplicationDef;
+import com.scw.devops.contract.query.data.ApplicationDef;
 
 public class ClientApplicationDefinitionTransformer {
 
@@ -9,7 +9,7 @@ public class ClientApplicationDefinitionTransformer {
 
 	public static ApplicationDef transformTo( final ApplicationDefinition def ) {
 		return new ApplicationDef( def.base.name,
-								   SharedProjectVersionProcessor
+								   ClientProjectVersionFormatter
 									   .getSingleVersionString( def.base.version ),
 								   def.base.sourceRepository,
 								   getImageRepository( def ),

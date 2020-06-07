@@ -24,21 +24,22 @@ import com.scw.devops.contract.store.common.data.ProjectVersionProcessor;
 import com.scw.devops.contract.store.query.data.ApplicationInstance;
 import com.scw.devops.contract.store.query.data.VersionQuery;
 import com.scw.devops.contract.store.query.data.VersionQueryProcessor;
+import com.scw.devops.store.application.StoreAutowiring;
 import com.scw.devops.store.state.DataStore;
 
 public class DataStoreQueryService {
 
 	private final DataStore dataStore;
 
-	public DataStoreQueryService( final DataStore dataStore ) {
-		this.dataStore = dataStore;
+	public DataStoreQueryService( final StoreAutowiring autowiring ) {
+		this.dataStore = autowiring.getDataStore();
 	}
 
 	public List<EnvironmentDefinition> getAllEnvironmentDefinitions(final VersionQuery versionQuery) {
 		return dataStore.getEnvironmentsByVersionByName()
 			.entrySet()
 			.stream()
-			.flatMap( e -> keepVersions( e.getValue(), versionQuery ) )
+			.flatMap( e -> sortAndKeepVersions( e.getValue(), versionQuery ) )
 			.map( e -> restoreOriginalEnvironment( e ) )
 			.collect( Collectors.toList() );
 	}
@@ -47,14 +48,14 @@ public class DataStoreQueryService {
 		return dataStore.getProductsByVersionByName()
 			.entrySet()
 			.stream()
-				.flatMap(e -> keepVersions(e.getValue(), versionQuery)).collect(Collectors.toList());
+				.flatMap(e -> sortAndKeepVersions(e.getValue(), versionQuery)).collect(Collectors.toList());
 	}
 
 	public List<ApplicationDefinition> getAllApplicationDefinitions(final VersionQuery versionQuery) {
 		return dataStore.getApplicationsByVersionByName()
 			.entrySet()
 			.stream()
-				.flatMap(e -> keepVersions(e.getValue(), versionQuery)).collect(Collectors.toList());
+				.flatMap(e -> sortAndKeepVersions(e.getValue(), versionQuery)).collect(Collectors.toList());
 	}
 
 	public Optional<ApplicationDefinition> getApplicationDefinition(final String name, final String version) {
@@ -90,7 +91,7 @@ public class DataStoreQueryService {
 
 	public List<ProductDefinition> getProductDefinitionsForApplication( final String name, final String wantedVersionAsSingleString,
 			final VersionQuery productVersionsToReturn) {
-		ApplicationInstanceReference ref = new ApplicationInstanceReference( name, wantedVersionAsSingleString );
+		ApplicationInstanceReferenceQuery ref = new ApplicationInstanceReferenceQuery( name, wantedVersionAsSingleString, null );
 		Optional<ApplicationDefinition> foundApplication = ref.getApplication( dataStore.getApplicationsByVersionByName() );
 		if (foundApplication.isPresent()) {
 			return dataStore.getProductsForApplication(
@@ -115,19 +116,19 @@ public class DataStoreQueryService {
 				.get(name);
 		if (environmentDefinitionsByVersion != null) {
 			return Optional.ofNullable(environmentDefinitionsByVersion
-				.getOrDefault( ProjectVersionProcessor.fromSingleString( versionAsSingleString ), null ) );
+				.getOrDefault( ProjectVersionProcessor.fromQueryVersionString( versionAsSingleString ), null ) );
 		}
 		return Optional.empty();
 	}
 
 	private Optional<ProductDefinition> getProductWithResolvedVersionFromEntry(
 																				final EnhancedEnvironmentProductDefinitionReference entry ) {
-		ProductDefinitionReference ref = entry.getProductDefinitionReference( ( p ) -> dataStore.getProductLastTag( p ) );
+		ProductDefinitionReferenceQuery ref = entry.getProductDefinitionReference( ( p ) -> dataStore.getProductLastTag( p ) );
 		return ref.getProduct( dataStore.getProductsByVersionByName() );
 	}
 
 	private Optional<ApplicationInstance> getApplicationFromEntry( final ApplicationInstanceEntry entry ) {
-		ApplicationInstanceReference ref = ApplicationInstanceEntryProcessor.getAppRef( entry );
+		ApplicationInstanceReferenceQuery ref = ApplicationInstanceEntryProcessor.getAppRef( entry );
 		Optional<ApplicationDefinition> definition = ref.getApplication( dataStore.getApplicationsByVersionByName() );
 		if (definition.isPresent()) {
 			return Optional.of( new ApplicationInstance( ApplicationInstanceEntryProcessor.getAlias( entry ), definition.get() ) );
@@ -150,7 +151,7 @@ public class DataStoreQueryService {
 		return Optional.empty();
 	}
 
-	private <T> Stream<T> keepVersions( final Map<MappableSortableProjectVersion, T> entriesByVersion, final VersionQuery versionQuery ) {
+	private <T> Stream<T> sortAndKeepVersions( final Map<MappableSortableProjectVersion, T> entriesByVersion, final VersionQuery versionQuery ) {
 		List<Entry<MappableSortableProjectVersion, T>> sortedByVersion = entriesByVersion.entrySet()
 			.stream()
 				.sorted((a, b) -> a.getKey().compareTo(b.getKey())).collect(Collectors.toList());

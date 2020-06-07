@@ -10,21 +10,19 @@ import java.util.function.Consumer;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabTag;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import com.scw.devops.collector.config.GitlabConfiguration;
+import com.scw.devops.collector.application.CollectorAutowiring;
+import com.scw.devops.collector.domain.ProjectData;
+import com.scw.devops.collector.domain.RepositoryLocation;
 import com.scw.devops.collector.domain.RepositoryProjectVersion;
 import com.scw.devops.collector.domain.RepositoryType;
 import com.scw.devops.collector.vcs.ProjectReader;
 import com.scw.devops.collector.vcs.ProjectReaderFactory;
-import com.scw.devops.collector.vcs.data.GitlabWebhook;
-import com.scw.devops.collector.vcs.data.ProjectData;
-import com.scw.devops.collector.vcs.data.RepositoryLocation;
 import com.scw.devops.collector.vcs.gateway.GitlabGateway;
-import com.scw.devops.contract.store.common.data.ProjectVersion;
+import com.scw.devops.contract.collector.data.GitlabWebhookData;
+import com.scw.devops.contract.collector.data.GitlabWebhookDataProcessor;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 
-@Service
 public class CollectionService {
 
 	private final GitlabGateway gitlabGateway;
@@ -34,15 +32,13 @@ public class CollectionService {
 	private final Collection<String> productsToIgnore;
 	private final Logger logger;
 
-	@Autowired
-	public CollectionService(final GitlabGateway gitlabGateway, final ProjectReaderFactory projectReaderFactory,
-			final GitlabConfiguration gitlabConfiguration, final Logger logger) {
-		this.gitlabGateway = gitlabGateway;
-		this.projectReaderFactory = projectReaderFactory;
-		this.environmentGroupName = gitlabConfiguration.getEnvironmentGroupName();
-		this.productGroupName = gitlabConfiguration.getProductGroupName();
-		this.productsToIgnore = gitlabConfiguration.getProductsToIgnore();
-		this.logger = logger;
+	public CollectionService( final CollectorAutowiring autowiring ) {
+		this.gitlabGateway = autowiring.getGitlabGateway();
+		this.projectReaderFactory = autowiring.getProjectReaderFactory();
+		this.environmentGroupName = autowiring.getGitlabConfiguration().getEnvironmentGroupName();
+		this.productGroupName = autowiring.getGitlabConfiguration().getProductGroupName();
+		this.productsToIgnore = autowiring.getGitlabConfiguration().getProductsToIgnore();
+		this.logger = autowiring.getLogger();
 	}
 
 	public void getEnvironments(final Consumer<ProjectData> foundEnvironments) {
@@ -87,16 +83,16 @@ public class CollectionService {
 				productConsumer);
 	}
 
-	public Optional<WebhookUpdate> processWebhook(final GitlabWebhook webhook,
+	public Optional<WebhookUpdate> processWebhook( final GitlabWebhookData webhook,
 			final BiFunction<RepositoryType, String, Boolean> projectRelevanceEvaluator,
 			final BiConsumer<RepositoryLocation, ProjectVersion> analyseProjectConsumer) {
-		String groupName = webhook.getGroupName();
+		String groupName = GitlabWebhookDataProcessor.getGroupName( webhook );
 		RepositoryType type = getRepositoryType(groupName);
-		String projectName = webhook.getProjectName();
-		String branchName = webhook.getBranch();
-		switch (webhook.getObjectKind()) {
+		String projectName = GitlabWebhookDataProcessor.getProjectName( webhook );
+		String branchName = GitlabWebhookDataProcessor.getBranch( webhook );
+		switch ( GitlabWebhookDataProcessor.getObjectKind( webhook ) ) {
 		case "push":
-			Collection<String> changedFiles = webhook.getChangedFiles();
+			Collection<String> changedFiles = GitlabWebhookDataProcessor.getChangedFiles( webhook );
 			boolean isPreviewBranch = branchName.equals(type.getPreviewBranch());
 			if (isPreviewBranch && ProjectReader.anyRelevantFilesInList(type, changedFiles)) {
 				return Optional.of(new WebhookUpdate(type, groupName, projectName, branchName, true));
@@ -106,7 +102,7 @@ public class CollectionService {
 		case "tag_push":
 			return Optional.of(new WebhookUpdate(type, groupName, projectName, branchName, false));
 		}
-		logger.info("Ignoring Webhook. Type: " + webhook.getObjectKind());
+		logger.info( "Ignoring Webhook. Type: " + GitlabWebhookDataProcessor.getObjectKind( webhook ) );
 		return Optional.empty();
 	}
 
@@ -179,10 +175,10 @@ public class CollectionService {
 			final Consumer<ProjectData> projectConsumer) {
 		ProjectReader projectReader = projectReaderFactory.getProjectReader(repositoryType, project);
 		String defaultBranch = repositoryType.getPreviewBranch();
-		projectReader.collectFiles(project.getName(), defaultBranch, true, projectConsumer);
+		projectReader.collectFiles( project.getName(), defaultBranch, ProjectVersion.previewVersion(), projectConsumer );
 		List<GitlabTag> tags = gitlabGateway.getAllTags(project);
 		tags.stream().forEach(t -> {
-			projectReader.collectFiles(project.getName(), t.getName(), false, projectConsumer);
+			projectReader.collectFiles( project.getName(), t.getName(), ProjectVersion.namedVersion( t.getName() ), projectConsumer );
 		});
 	}
 
@@ -190,6 +186,7 @@ public class CollectionService {
 									 final RepositoryProjectVersion repositoryVersion, final Consumer<ProjectData> projectConsumer ) {
 		ProjectReader projectReader = projectReaderFactory.getProjectReader(repositoryType, project);
 		projectReader.collectFiles(project.getName(), repositoryVersion.getOriginalName(),
-				repositoryVersion.isPreview(), projectConsumer);
+									repositoryVersion.getProjectVersion(),
+									projectConsumer );
 	}
 }

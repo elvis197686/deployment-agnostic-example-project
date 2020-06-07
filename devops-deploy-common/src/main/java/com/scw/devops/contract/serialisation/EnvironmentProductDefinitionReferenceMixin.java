@@ -2,7 +2,7 @@ package com.scw.devops.contract.serialisation;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.scw.devops.contract.store.common.data.ProjectVersion;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 
 public class EnvironmentProductDefinitionReferenceMixin {
 

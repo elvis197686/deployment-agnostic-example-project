@@ -1,0 +1,26 @@
+server:
+  port: 80
+
+logging.level:
+  com.scw.devops.collector.: DEBUG
+
+initialise_on_startup: true
+
+gitlab:
+  url: https://git.scw.local
+  accessToken: 7URzaFK5WsgwJucxtpzM
+  environment-group: retail-helm-environments
+  product-group: retail-helm-products
+  products-to-ignore: >
+    demo
+    ^test*
+    ian-product
+    mike
+    josh
+    lee
+    jiri
+    johnnyv5
+    newtest-prod
+    mytestproduct
+  
+  

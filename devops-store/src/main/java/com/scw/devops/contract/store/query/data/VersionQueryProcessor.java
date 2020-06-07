@@ -5,14 +5,14 @@ import com.scw.devops.contract.store.common.data.MappableSortableProjectVersion;
 public class VersionQueryProcessor {
 
 	public static boolean includeThisVersion( final VersionQuery versionQuery, final MappableSortableProjectVersion candidateVersion ) {
-		if ( !versionQuery.includePreview && candidateVersion.isPreview() ) {
+		if ( !versionQuery.includePreview && candidateVersion.getProjectVersion().isPreview() ) {
 			return false;
 		}
 		if ( versionQuery.wantedVersionIsWildcard ) {
 			return true;
 		}
 		if ( versionQuery.wantedVersionIsPreview ) {
-			return candidateVersion.isPreview();
+			return candidateVersion.getProjectVersion().isPreview();
 		}
 		if ( versionQuery.wantedVersionAsSemVer.isPresent() ) {
 			return candidateVersion.compliesTo( versionQuery.wantedVersionAsSemVer.get() );

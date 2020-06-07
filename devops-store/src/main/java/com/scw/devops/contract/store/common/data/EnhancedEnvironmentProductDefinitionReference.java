@@ -2,7 +2,8 @@ package com.scw.devops.contract.store.common.data;
 
 import java.util.function.Function;
 
-import com.scw.devops.store.service.ProductDefinitionReference;
+import com.scw.devops.domain.projectversion.ProjectVersion;
+import com.scw.devops.store.service.ProductDefinitionReferenceQuery;
 import com.scw.devops.store.service.ProjectVersionWithWildcard;
 
 import lombok.AllArgsConstructor;
@@ -24,8 +25,8 @@ public class EnhancedEnvironmentProductDefinitionReference {
 		return originalDefinition;
 	}
 
-	public ProductDefinitionReference getProductDefinitionReference( final Function<String, ProjectVersion> versionResolver ) {
+	public ProductDefinitionReferenceQuery getProductDefinitionReference( final Function<String, ProjectVersion> versionResolver ) {
 		ProjectVersion versionToUse = version.getOrResolveWildcard( originalDefinition.name, versionResolver );
-		return new ProductDefinitionReference( originalDefinition.name, SharedProjectVersionProcessor.getSingleVersionString( versionToUse ) );
+		return new ProductDefinitionReferenceQuery( originalDefinition.name, versionToUse );
 	}
 }

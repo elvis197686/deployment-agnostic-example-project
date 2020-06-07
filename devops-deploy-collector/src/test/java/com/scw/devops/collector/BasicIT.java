@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.models.GitlabProject;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
@@ -35,10 +36,9 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.scw.devops.collector.vcs.gateway.GitlabGateway;
 import com.scw.devops.contract.store.common.data.DefinitionBase;
 import com.scw.devops.contract.store.common.data.ProductDefinition;
-import com.scw.devops.contract.store.common.data.ProjectVersion;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 
 // NOTE: Must be in same package as Application class, other you get missing @SpringBootConfiguration errors
 @ExtendWith( SpringExtension.class )
@@ -54,7 +54,8 @@ public class BasicIT {
 	@Autowired
 	private RestTemplate restTemplate;
 	@Autowired
-	private GitlabGateway gitlabGateway;
+	@Qualifier( "mockGitlabAPI" )
+	private GitlabAPI mockGitlabAPI;
 
 	private MockRestServiceServer mockServer;
 
@@ -67,12 +68,13 @@ public class BasicIT {
 	public void runThruTest() throws Exception {
 		// TODO - test all methods
 		GitlabProject gitlabProject = new GitlabProject();
-		Mockito.when( gitlabGateway.getProject( "products", "product1" ) ).thenReturn( gitlabProject );
+		Mockito.when( mockGitlabAPI.getProject( "products", "product1" ) ).thenReturn( gitlabProject );
 
 		ProductDefinition def = new ProductDefinition( new DefinitionBase( "product1",
-																					  new ProjectVersion( "1", false ),
-																					  new HashMap<>(),
-																					  "repo",
+																		   ProjectVersion
+																			   .namedVersion( "1" ),
+																		   new HashMap<>(),
+																		   "repo",
 																		   Arrays.asList() ),
 													   Arrays.asList() );
 		mockServer
@@ -82,13 +84,14 @@ public class BasicIT {
 			.andExpect( MockRestRequestMatchers.method( HttpMethod.POST ) )
 			.andExpect( MockRestRequestMatchers.content()
 				// TODO - better matching!
-				.string( Matchers.stringContainsInOrder( "version",
-														 "develop" ) ) )
+				.string( Matchers
+					.stringContainsInOrder( "type",
+											"AddProductDefinitionCommand" ) ) )
 			.andRespond( MockRestResponseCreators.withStatus( HttpStatus.OK ) );
 
 		String response = get( "/ingest/product/product1", serialise( def ) );
 
-		Assertions.assertTrue( response.isEmpty() );
+		Assertions.assertTrue( response.contains( "dummyBoolean\":false" ) );
 		mockServer.verify();
 	}
 

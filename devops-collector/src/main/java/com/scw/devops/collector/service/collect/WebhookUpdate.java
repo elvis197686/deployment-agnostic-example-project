@@ -1,8 +1,9 @@
 package com.scw.devops.collector.service.collect;
 
+import com.scw.devops.collector.domain.RepositoryLocation;
 import com.scw.devops.collector.domain.RepositoryProjectVersion;
 import com.scw.devops.collector.domain.RepositoryType;
-import com.scw.devops.collector.vcs.data.RepositoryLocation;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;
@@ -30,7 +31,10 @@ public class WebhookUpdate {
 	}
 
 	public RepositoryProjectVersion getProjectVersion() {
-		return new RepositoryProjectVersion( branchName, isPreviewBranch );
+		if ( isPreviewBranch ) {
+			return new RepositoryProjectVersion( branchName, ProjectVersion.previewVersion() );
+		}
+		return new RepositoryProjectVersion( branchName, ProjectVersion.namedVersion( branchName ) );
 	}
 
 }

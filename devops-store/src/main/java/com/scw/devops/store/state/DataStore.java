@@ -13,7 +13,7 @@ import com.scw.devops.contract.store.common.data.EnhancedEnvironmentDefinition;
 import com.scw.devops.contract.store.common.data.MappableDefinitionReference;
 import com.scw.devops.contract.store.common.data.MappableSortableProjectVersion;
 import com.scw.devops.contract.store.common.data.ProductDefinition;
-import com.scw.devops.contract.store.common.data.ProjectVersion;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 
 public class DataStore {
 
@@ -91,13 +91,14 @@ public class DataStore {
 			Optional<MappableSortableProjectVersion> lastTag = productVersions.keySet()
 				.stream()
 				.sorted( ( a, b ) -> a.compareTo( b ) )
-					.filter((v) -> !v.isPreview()).findFirst();
+				.filter( ( v ) -> !v.getProjectVersion().isPreview() )
+				.findFirst();
 			if (lastTag.isPresent()) {
 				return lastTag.get().getProjectVersion();
 			}
 		}
 		// Use latest if nothing found
-		return new ProjectVersion("preview", true);
+		return ProjectVersion.previewVersion();
 	}
 
 	public Map<String, Map<MappableSortableProjectVersion, EnhancedEnvironmentDefinition>> getEnvironmentsByVersionByName() {

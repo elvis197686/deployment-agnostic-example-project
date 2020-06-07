@@ -1,5 +1,7 @@
 package com.scw.devops.contract.store.common.data;
 
+import com.scw.devops.domain.projectversion.ProjectVersion;
+
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
@@ -15,7 +17,7 @@ public class MappableDefinitionReference {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ( ( name == null ) ? 0 : name.hashCode() );
-		result = prime * result + ( ( version == null ) ? 0 : SharedProjectVersionProcessor.getSingleVersionString( version ).hashCode() );
+		result = prime * result + ( ( version == null ) ? 0 : version.hashCode() );
 		return result;
 	}
 
@@ -38,8 +40,7 @@ public class MappableDefinitionReference {
 			if ( other.version != null )
 				return false;
 		}
-		else if ( !SharedProjectVersionProcessor.getSingleVersionString( version )
-			.equals( SharedProjectVersionProcessor.getSingleVersionString( other.version ) ) )
+		else if ( !version.equals( other.version ) )
 			return false;
 		return true;
 	}

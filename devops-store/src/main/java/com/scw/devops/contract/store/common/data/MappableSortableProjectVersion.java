@@ -1,5 +1,8 @@
 package com.scw.devops.contract.store.common.data;
 
+import java.util.Optional;
+
+import com.scw.devops.domain.projectversion.ProjectVersion;
 import com.vdurmont.semver4j.Requirement;
 import com.vdurmont.semver4j.Semver;
 
@@ -13,43 +16,45 @@ public class MappableSortableProjectVersion {
 	private static final Semver LOWEST_SEMVER = new Semver( "0.0.1" );
 
 	private final ProjectVersion ref;
-	private final String singleVersionString;
 
 	public ProjectVersion getProjectVersion() {
 		return ref;
 	}
 
-	public boolean isPreview() {
-		return ref.isPreview;
-	}
-
 	public boolean compliesTo( final String semverToCompare ) {
-		if ( ref.isPreview ) {
+		Optional<String> versionString = ref.getVersionNameIfNotPreview();
+		if ( !versionString.isPresent() ) {
 			// Semver does not provide the capability of filtering in or out a preview
 			// version, so we will always filter in and expect the caller to discard preview
 			// versions if necessary
 			return true;
 		}
-		return getSemver( ref.version ).satisfies( Requirement.buildNPM( semverToCompare ) );
+		return getSemver( versionString.get() ).satisfies( Requirement.buildNPM( semverToCompare ) );
 	}
 
 	public int compareTo( final MappableSortableProjectVersion otherVersion ) {
+		return compareVersions( ref, otherVersion.ref );
+	}
+
+	public static int compareVersions( final ProjectVersion thisVersion, final ProjectVersion otherVersion ) {
 		// WE want highest version first, with preview highest
-		if ( ref.isPreview ) {
-			if ( otherVersion.ref.isPreview ) {
+		Optional<String> versionString = thisVersion.getVersionNameIfNotPreview();
+		Optional<String> otherVersionString = otherVersion.getVersionNameIfNotPreview();
+		if ( !versionString.isPresent() ) {
+			if ( !otherVersionString.isPresent() ) {
 				return 0;
 			}
 			return -1;
 		}
-		if ( otherVersion.ref.isPreview ) {
+		if ( !otherVersionString.isPresent() ) {
 			return 1;
 		}
-		return compareSemverStringsHighestFirst( ref.version, otherVersion.ref.version );
+		return compareSemverStringsHighestFirst( versionString.get(), otherVersionString.get() );
 	}
 
-	private int compareSemverStringsHighestFirst( final String thisVersion, final String otherVersion ) {
+	private static int compareSemverStringsHighestFirst( final String thisVersion, final String otherVersion ) {
 		// Semver library puts lowest first
-		return getSemver( otherVersion ).compareTo( getSemver( ref.version ) );
+		return getSemver( otherVersion ).compareTo( getSemver( thisVersion ) );
 	}
 
 	private static Semver getSemver( final String semverString ) {
@@ -63,10 +68,7 @@ public class MappableSortableProjectVersion {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + singleVersionString.hashCode();
-		return result;
+		return ref.hashCode();
 	}
 
 	@Override
@@ -77,7 +79,7 @@ public class MappableSortableProjectVersion {
 			return false;
 		if ( getClass() != obj.getClass() )
 			return false;
-		return singleVersionString.equals( ( (MappableSortableProjectVersion) obj ).singleVersionString );
+		return ref.equals( ( (MappableSortableProjectVersion) obj ).ref );
 	}
 
 }

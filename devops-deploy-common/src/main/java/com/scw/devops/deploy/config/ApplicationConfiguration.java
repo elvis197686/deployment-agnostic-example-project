@@ -10,31 +10,69 @@ import org.springframework.context.annotation.Scope;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.scw.devops.contract.collector.data.OutputVoid;
+import com.scw.devops.contract.query.command.DevopsQueryCommand;
+import com.scw.devops.contract.query.command.GetApplicationsCommand;
+import com.scw.devops.contract.query.command.GetEnvironmentsCommand;
+import com.scw.devops.contract.query.command.GetOrphanedApplicationsSinceRestartCommand;
+import com.scw.devops.contract.query.command.GetPreviousApplicationsDefinitionCommand;
+import com.scw.devops.contract.query.command.GetProductsCommand;
+import com.scw.devops.contract.query.command.GetProductsInApplicationCommand;
+import com.scw.devops.contract.query.command.GetProductsInEnvironmentCommand;
+import com.scw.devops.contract.query.command.ReturnApplicationDefinition;
+import com.scw.devops.contract.query.command.ReturnApplicationDefinitions;
+import com.scw.devops.contract.query.command.ReturnEnvironmentDefinitions;
+import com.scw.devops.contract.query.command.ReturnProductDefinitions;
+import com.scw.devops.contract.query.data.ApplicationDef;
+import com.scw.devops.contract.query.data.ConfigurationErrorData;
+import com.scw.devops.contract.query.data.EnvironmentDef;
+import com.scw.devops.contract.query.data.EnvironmentQueryInputFilter;
+import com.scw.devops.contract.query.data.ProductDef;
+import com.scw.devops.contract.query.data.StandardQueryInputFilter;
 import com.scw.devops.contract.serialisation.AddApplicationDefinitionCommandMixin;
 import com.scw.devops.contract.serialisation.AddEnvironmentDefinitionCommandMixin;
 import com.scw.devops.contract.serialisation.AddProductDefinitionCommandMixin;
+import com.scw.devops.contract.serialisation.ApplicationDefMixin;
 import com.scw.devops.contract.serialisation.ApplicationDefinitionMixin;
 import com.scw.devops.contract.serialisation.ApplicationInstanceEntryMixin;
+import com.scw.devops.contract.serialisation.ConfigurationErrorDataMixin;
 import com.scw.devops.contract.serialisation.ConfigurationErrorMixin;
 import com.scw.devops.contract.serialisation.DefinitionBaseMixin;
+import com.scw.devops.contract.serialisation.DevopsQueryCommandMixin;
+import com.scw.devops.contract.serialisation.EnvironmentDefMixin;
 import com.scw.devops.contract.serialisation.EnvironmentDefinitionMixin;
 import com.scw.devops.contract.serialisation.EnvironmentProductDefinitionReferenceMixin;
+import com.scw.devops.contract.serialisation.EnvironmentQueryInputFilterMixin;
 import com.scw.devops.contract.serialisation.GetAllApplicationDefinitionsCommandMixin;
 import com.scw.devops.contract.serialisation.GetAllEnvironmentDefinitionsCommandMixin;
 import com.scw.devops.contract.serialisation.GetAllProductDefinitionsCommandMixin;
 import com.scw.devops.contract.serialisation.GetApplicationDefinitionCommandMixin;
+import com.scw.devops.contract.serialisation.GetApplicationsCommandMixin;
+import com.scw.devops.contract.serialisation.GetEnvironmentsCommandMixin;
 import com.scw.devops.contract.serialisation.GetEnvironmentsWithProductDeployedCommandMixin;
+import com.scw.devops.contract.serialisation.GetOrphanedApplicationsSinceRestartCommandMixin;
 import com.scw.devops.contract.serialisation.GetPreviousApplicationDefinitionCommandMixin;
+import com.scw.devops.contract.serialisation.GetPreviousApplicationsDefinitionCommandMixin;
 import com.scw.devops.contract.serialisation.GetProductApplicationReferencesCommandMixin;
 import com.scw.devops.contract.serialisation.GetProductDefinitionsForApplicationCommandMixin;
 import com.scw.devops.contract.serialisation.GetProductDefinitionsForEnvironmentCommandMixin;
+import com.scw.devops.contract.serialisation.GetProductsCommandMixin;
+import com.scw.devops.contract.serialisation.GetProductsInApplicationCommandMixin;
+import com.scw.devops.contract.serialisation.GetProductsInEnvironmentCommandMixin;
 import com.scw.devops.contract.serialisation.OutputApplicationDefinitionMixin;
 import com.scw.devops.contract.serialisation.OutputApplicationDefinitionsMixin;
 import com.scw.devops.contract.serialisation.OutputApplicationInstancesMixin;
 import com.scw.devops.contract.serialisation.OutputEnvironmentDefinitionsMixin;
 import com.scw.devops.contract.serialisation.OutputProductDefinitionsMixin;
+import com.scw.devops.contract.serialisation.OutputVoidMixin;
+import com.scw.devops.contract.serialisation.ProductDefMixin;
 import com.scw.devops.contract.serialisation.ProductDefinitionMixin;
 import com.scw.devops.contract.serialisation.ProjectVersionMixin;
+import com.scw.devops.contract.serialisation.ReturnApplicationDefinitionMixin;
+import com.scw.devops.contract.serialisation.ReturnApplicationsDefinitionMixin;
+import com.scw.devops.contract.serialisation.ReturnEnvironmentsDefinitionMixin;
+import com.scw.devops.contract.serialisation.ReturnProductsDefinitionMixin;
+import com.scw.devops.contract.serialisation.StandardQueryInputFilterMixin;
 import com.scw.devops.contract.serialisation.StoreQueryCommandMixin;
 import com.scw.devops.contract.serialisation.StoreQueryCommandResultMixin;
 import com.scw.devops.contract.serialisation.StoreUpdateCommandMixin;
@@ -45,7 +83,6 @@ import com.scw.devops.contract.store.common.data.DefinitionBase;
 import com.scw.devops.contract.store.common.data.EnvironmentDefinition;
 import com.scw.devops.contract.store.common.data.EnvironmentProductDefinitionReference;
 import com.scw.devops.contract.store.common.data.ProductDefinition;
-import com.scw.devops.contract.store.common.data.ProjectVersion;
 import com.scw.devops.contract.store.query.command.GetAllApplicationDefinitionsCommand;
 import com.scw.devops.contract.store.query.command.GetAllEnvironmentDefinitionsCommand;
 import com.scw.devops.contract.store.query.command.GetAllProductDefinitionsCommand;
@@ -66,6 +103,7 @@ import com.scw.devops.contract.store.update.command.AddApplicationDefinitionComm
 import com.scw.devops.contract.store.update.command.AddEnvironmentDefinitionCommand;
 import com.scw.devops.contract.store.update.command.AddProductDefinitionCommand;
 import com.scw.devops.contract.store.update.command.StoreUpdateCommand;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -73,7 +111,17 @@ public class ApplicationConfiguration {
 	@Bean
 	@Scope("prototype")
 	public Logger logger(final InjectionPoint injectionPoint) {
-		return LoggerFactory.getLogger(injectionPoint.getMethodParameter().getContainingClass());
+		Class<?> clazz = null;
+		if ( injectionPoint.getMethodParameter() != null ) {
+			clazz = injectionPoint.getMethodParameter().getContainingClass();
+		}
+		else if ( injectionPoint.getField() != null ) {
+			clazz = injectionPoint.getField().getDeclaringClass();
+		}
+		if ( clazz == null ) {
+			return LoggerFactory.getILoggerFactory().getLogger( injectionPoint.getDeclaredType().getName() );
+		}
+		return LoggerFactory.getLogger( clazz );
 	}
 
 	@Bean
@@ -88,6 +136,7 @@ public class ApplicationConfiguration {
 			.withSetterVisibility( JsonAutoDetect.Visibility.NONE )
 			.withCreatorVisibility( JsonAutoDetect.Visibility.NONE ) );
 		// Note: These are required until Jackson implements auto-deserialisation for classes with a single constructor
+		// Store
 		jsonObjectMapper.addMixIn( ProjectVersion.class, ProjectVersionMixin.class );
 		jsonObjectMapper.addMixIn( ConfigurationError.class, ConfigurationErrorMixin.class );
 		jsonObjectMapper.addMixIn( DefinitionBase.class, DefinitionBaseMixin.class );
@@ -116,6 +165,27 @@ public class ApplicationConfiguration {
 		jsonObjectMapper.addMixIn( OutputProductDefinitions.class, OutputProductDefinitionsMixin.class );
 		jsonObjectMapper.addMixIn( OutputEnvironmentDefinitions.class, OutputEnvironmentDefinitionsMixin.class );
 		jsonObjectMapper.addMixIn( StoreQueryCommandResult.class, StoreQueryCommandResultMixin.class );
+		// Query
+		jsonObjectMapper.addMixIn( EnvironmentQueryInputFilter.class, EnvironmentQueryInputFilterMixin.class );
+		jsonObjectMapper.addMixIn( StandardQueryInputFilter.class, StandardQueryInputFilterMixin.class );
+		jsonObjectMapper.addMixIn( GetEnvironmentsCommand.class, GetEnvironmentsCommandMixin.class );
+		jsonObjectMapper.addMixIn( GetProductsCommand.class, GetProductsCommandMixin.class );
+		jsonObjectMapper.addMixIn( GetApplicationsCommand.class, GetApplicationsCommandMixin.class );
+		jsonObjectMapper.addMixIn( GetOrphanedApplicationsSinceRestartCommand.class, GetOrphanedApplicationsSinceRestartCommandMixin.class );
+		jsonObjectMapper.addMixIn( GetPreviousApplicationsDefinitionCommand.class, GetPreviousApplicationsDefinitionCommandMixin.class );
+		jsonObjectMapper.addMixIn( GetProductsInApplicationCommand.class, GetProductsInApplicationCommandMixin.class );
+		jsonObjectMapper.addMixIn( GetProductsInEnvironmentCommand.class, GetProductsInEnvironmentCommandMixin.class );
+		jsonObjectMapper.addMixIn( ConfigurationErrorData.class, ConfigurationErrorDataMixin.class );
+		jsonObjectMapper.addMixIn( ApplicationDef.class, ApplicationDefMixin.class );
+		jsonObjectMapper.addMixIn( ProductDef.class, ProductDefMixin.class );
+		jsonObjectMapper.addMixIn( EnvironmentDef.class, EnvironmentDefMixin.class );
+		jsonObjectMapper.addMixIn( ReturnApplicationDefinition.class, ReturnApplicationDefinitionMixin.class );
+		jsonObjectMapper.addMixIn( ReturnApplicationDefinitions.class, ReturnApplicationsDefinitionMixin.class );
+		jsonObjectMapper.addMixIn( ReturnProductDefinitions.class, ReturnProductsDefinitionMixin.class );
+		jsonObjectMapper.addMixIn( ReturnEnvironmentDefinitions.class, ReturnEnvironmentsDefinitionMixin.class );
+		jsonObjectMapper.addMixIn( DevopsQueryCommand.class, DevopsQueryCommandMixin.class );
+		// Collector
+		jsonObjectMapper.addMixIn( OutputVoid.class, OutputVoidMixin.class );
 		return jsonObjectMapper;
 	}
 

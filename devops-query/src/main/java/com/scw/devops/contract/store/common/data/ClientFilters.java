@@ -6,19 +6,17 @@ import java.util.regex.Pattern;
 
 public class ClientFilters {
 
-	static boolean filterByBooleanProperty(Boolean actualValue, boolean defaultActualValue,
-			Optional<Boolean> wantedValue) {
+	static boolean filterByBooleanProperty( final Optional<Boolean> actualValue,
+											final boolean defaultActualValue,
+			final Optional<Boolean> wantedValue) {
 		if (!wantedValue.isPresent()) {
 			return true;
 		}
-		boolean actualValueForComparison = defaultActualValue;
-		if (actualValue != null) {
-			actualValueForComparison = actualValue;
-		}
+		boolean actualValueForComparison = actualValue.orElse( defaultActualValue );
 		return wantedValue.get().equals(actualValueForComparison);
 	}
 
-	static boolean filterByName(String actualName, Optional<String> wantedName) {
+	static boolean filterByName(final String actualName, final Optional<String> wantedName) {
 		if (!wantedName.isPresent()) {
 			return true;
 		}
@@ -27,8 +25,8 @@ public class ClientFilters {
 		return matcher.find();
 	}
 
-	static boolean filterByExactString(Optional<String> actualString, boolean unsetOnly,
-			Optional<String> wantedString) {
+	static boolean filterByExactString(final Optional<String> actualString, final boolean unsetOnly,
+			final Optional<String> wantedString) {
 		if (unsetOnly) {
 			return actualString.isEmpty();
 		}
@@ -41,7 +39,7 @@ public class ClientFilters {
 		return actualString.get().equals(wantedString.get());
 	}
 
-	static boolean filterByErrorState(boolean hasError, Optional<Boolean> wantedValidityState) {
+	static boolean filterByErrorState(final boolean hasError, final Optional<Boolean> wantedValidityState) {
 		if (!wantedValidityState.isPresent()) {
 			return true;
 		}

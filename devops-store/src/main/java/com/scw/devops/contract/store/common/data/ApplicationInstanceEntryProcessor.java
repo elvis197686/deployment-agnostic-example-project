@@ -1,6 +1,6 @@
 package com.scw.devops.contract.store.common.data;
 
-import com.scw.devops.store.service.ApplicationInstanceReference;
+import com.scw.devops.store.service.ApplicationInstanceReferenceQuery;
 
 public class ApplicationInstanceEntryProcessor {
 
@@ -8,8 +8,8 @@ public class ApplicationInstanceEntryProcessor {
 		return new MappableDefinitionReference( applicationEntry.repoName, applicationEntry.version );
 	}
 
-	public static ApplicationInstanceReference getAppRef( final ApplicationInstanceEntry entry ) {
-		return new ApplicationInstanceReference( entry.repoName, SharedProjectVersionProcessor.getSingleVersionString( entry.version ) );
+	public static ApplicationInstanceReferenceQuery getAppRef( final ApplicationInstanceEntry entry ) {
+		return new ApplicationInstanceReferenceQuery( entry.repoName, null, entry.version );
 	}
 
 	public static String getAlias( final ApplicationInstanceEntry entry ) {

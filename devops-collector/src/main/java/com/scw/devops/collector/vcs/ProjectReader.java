@@ -7,12 +7,13 @@ import org.gitlab.api.models.GitlabProject;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.scw.devops.collector.domain.ProjectData;
 import com.scw.devops.collector.domain.RepositoryType;
 import com.scw.devops.collector.vcs.data.DeployYaml;
-import com.scw.devops.collector.vcs.data.ProjectData;
 import com.scw.devops.collector.vcs.data.RequirementsYaml;
 import com.scw.devops.collector.vcs.data.ValuesYaml;
 import com.scw.devops.collector.vcs.gateway.GitlabGateway;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 
 public class ProjectReader {
 
@@ -40,7 +41,8 @@ public class ProjectReader {
 				|| changedFiles.contains(PRODUCT_VALUES_FILE);
 	}
 
-	public void collectFiles(final String projectName, final String branchOrTagName, final boolean isPreview,
+	public void collectFiles( final String projectName, final String branchOrTagName,
+							  final ProjectVersion projectVersion,
 			final Consumer<ProjectData> projectConsumer) {
 		String errorContext = "deploy.yaml";
 		ProjectData foundProjectData = null;
@@ -59,7 +61,10 @@ public class ProjectReader {
 																	   RequirementsYaml.class );
 			}
 			errorContext = "ingestion";
-			foundProjectData = new ProjectData(repositoryType, projectName, branchOrTagName, isPreview,
+			foundProjectData = new ProjectData( repositoryType,
+												projectName,
+												branchOrTagName,
+												projectVersion,
 												deployYamlContents,
 												valuesYamlContents,
 												requirementsYamlContents );
@@ -67,7 +72,7 @@ public class ProjectReader {
 			String errorMessage = "Error whilst reading Gitlab project. Context: " + errorContext;
 			logger.warn(errorMessage, e);
 			Exception wrappedException = new Exception(errorMessage, e);
-			foundProjectData = new ProjectData(repositoryType, projectName, branchOrTagName, isPreview,
+			foundProjectData = new ProjectData( repositoryType, projectName, branchOrTagName, projectVersion,
 					wrappedException);
 		}
 		projectConsumer.accept(foundProjectData);

@@ -7,7 +7,7 @@ public class ApplicationDefinitionProcessor {
 	}
 
 	public static MappableSortableProjectVersion getVersion( final ApplicationDefinition definition ) {
-		return new MappableSortableProjectVersion(definition.base.version, definition.base.version.version);
+		return new MappableSortableProjectVersion( definition.base.version );
 	}
 
 	public static MappableDefinitionReference getDefinitionReference( final ApplicationDefinition definition ) {

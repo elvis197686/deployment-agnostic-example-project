@@ -1,6 +1,6 @@
 package com.scw.devops.collector.vcs.data;
 
-import static com.scw.devops.collector.vcs.data.UrlFormatter.splitSourceRepository;
+import static com.scw.devops.collector.domain.UrlFormatter.splitSourceRepository;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.scw.devops.collector.domain.RepositoryApplicationInstanceEntry;
-import com.scw.devops.collector.domain.RepositoryProjectVersion;
+import com.scw.devops.collector.domain.RepositoryLocation;
 import com.scw.devops.contract.store.common.data.EnvironmentProductDefinitionReference;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 
 public class DeployYaml {
 
@@ -146,7 +147,7 @@ public class DeployYaml {
 
 		public EnvironmentProductDefinitionReference transformTo() {
 			return new EnvironmentProductDefinitionReference( name,
-															  RepositoryProjectVersion.fromSingleString( version ) );
+															  ProjectVersion.fromYamlVersionString( version ) );
 		}
 
 		@Override

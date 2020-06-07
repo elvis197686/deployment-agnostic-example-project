@@ -1,10 +1,9 @@
 package com.scw.devops.store.service;
 
+import java.util.Optional;
 import java.util.function.Function;
 
-import com.scw.devops.contract.store.common.data.ProjectVersion;
-import com.scw.devops.contract.store.common.data.ProjectVersionProcessor;
-import com.scw.devops.contract.store.common.data.SharedProjectVersionProcessor;
+import com.scw.devops.domain.projectversion.ProjectVersion;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;
@@ -19,11 +18,12 @@ public class ProjectVersionWithWildcard {
 	private final ProjectVersion projectVersion;
 	private final boolean isWildcard;
 
-	public static ProjectVersionWithWildcard fromSingleString(final String versionAsSingleString) {
-		if (versionAsSingleString.equals(WILDCARD_VERSION)) {
-			return new ProjectVersionWithWildcard( new ProjectVersion( LATEST_TAG, false ), true );
+	public static ProjectVersionWithWildcard fromVersion( final ProjectVersion version ) {
+		Optional<String> versionString = version.getVersionNameIfNotPreview();
+		if ( versionString.isPresent() && versionString.get().equals( WILDCARD_VERSION ) ) {
+			return new ProjectVersionWithWildcard( ProjectVersion.namedVersion( LATEST_TAG ), true );
 		}
-		return new ProjectVersionWithWildcard( ProjectVersionProcessor.fromSingleString( versionAsSingleString ), false );
+		return new ProjectVersionWithWildcard( version, false );
 	}
 
 	public ProjectVersion getOrResolveWildcard(final String name, final Function<String, ProjectVersion> versionResolver) {
@@ -31,13 +31,6 @@ public class ProjectVersionWithWildcard {
 			return versionResolver.apply(name);
 		}
 		return projectVersion;
-	}
-
-	public String getSingleVersionString() {
-		if (isWildcard) {
-			return "*";
-		}
-		return SharedProjectVersionProcessor.getSingleVersionString( projectVersion );
 	}
 
 }

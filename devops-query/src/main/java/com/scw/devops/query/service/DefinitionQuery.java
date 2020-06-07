@@ -1,6 +1,6 @@
 package com.scw.devops.query.service;
 
-import static com.scw.devops.query.controller.DataStoreQueryBuilder.generateQuery;
+import static com.scw.devops.query.service.DataStoreQueryBuilder.generateQuery;
 import static java.util.stream.Collectors.toList;
 
 import java.util.Collection;
@@ -8,103 +8,112 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.scw.devops.contract.query.data.ApplicationDef;
+import com.scw.devops.contract.query.data.Environment;
+import com.scw.devops.contract.query.data.EnvironmentQueryInputFilter;
+import com.scw.devops.contract.query.data.EnvironmentQueryInputFilterProcessor;
+import com.scw.devops.contract.query.data.EnvironmentQueryInputFilterTransformer;
+import com.scw.devops.contract.query.data.ProductDef;
+import com.scw.devops.contract.query.data.StandardQueryInputFilter;
+import com.scw.devops.contract.query.data.StandardQueryInputFilterProcessor;
+import com.scw.devops.contract.query.data.StandardQueryInputFilterTransformer;
 import com.scw.devops.contract.store.common.data.ApplicationDefinition;
 import com.scw.devops.contract.store.common.data.ClientApplicationDefinitionComparator;
 import com.scw.devops.contract.store.common.data.ClientApplicationDefinitionFilters;
 import com.scw.devops.contract.store.common.data.ClientApplicationDefinitionProcessor;
 import com.scw.devops.contract.store.common.data.ClientApplicationDefinitionTransformer;
-import com.scw.devops.contract.store.common.data.EnvironmentDefinition;
 import com.scw.devops.contract.store.common.data.ClientEnvironmentDefinitionFilters;
 import com.scw.devops.contract.store.common.data.ClientEnvironmentDefinitionTransformer;
+import com.scw.devops.contract.store.common.data.EnvironmentDefinition;
 import com.scw.devops.contract.store.common.data.ProductDefinition;
 import com.scw.devops.contract.store.query.DataStoreReader;
-import com.scw.devops.contract.store.query.command.GetAllApplicationDefinitionsCommand;
 import com.scw.devops.contract.store.query.command.ClientGetAllApplicationDefinitionsCommand;
-import com.scw.devops.contract.store.query.command.GetAllEnvironmentDefinitionsCommand;
 import com.scw.devops.contract.store.query.command.ClientGetAllEnvironmentDefinitionsCommand;
-import com.scw.devops.contract.store.query.command.GetAllProductDefinitionsCommand;
 import com.scw.devops.contract.store.query.command.ClientGetAllProductDefinitionsCommand;
-import com.scw.devops.contract.store.query.command.GetApplicationDefinitionCommand;
 import com.scw.devops.contract.store.query.command.ClientGetApplicationDefinitionCommand;
-import com.scw.devops.contract.store.query.command.GetPreviousApplicationDefinitionCommand;
 import com.scw.devops.contract.store.query.command.ClientGetPreviousApplicationDefinitionCommand;
-import com.scw.devops.contract.store.query.command.GetProductDefinitionsForApplicationCommand;
 import com.scw.devops.contract.store.query.command.ClientGetProductDefinitionsForApplicationCommand;
-import com.scw.devops.contract.store.query.command.GetProductDefinitionsForEnvironmentCommand;
 import com.scw.devops.contract.store.query.command.ClientGetProductDefinitionsForEnvironmentCommand;
+import com.scw.devops.contract.store.query.command.GetAllApplicationDefinitionsCommand;
+import com.scw.devops.contract.store.query.command.GetAllEnvironmentDefinitionsCommand;
+import com.scw.devops.contract.store.query.command.GetAllProductDefinitionsCommand;
+import com.scw.devops.contract.store.query.command.GetApplicationDefinitionCommand;
+import com.scw.devops.contract.store.query.command.GetPreviousApplicationDefinitionCommand;
+import com.scw.devops.contract.store.query.command.GetProductDefinitionsForApplicationCommand;
+import com.scw.devops.contract.store.query.command.GetProductDefinitionsForEnvironmentCommand;
 import com.scw.devops.contract.store.query.data.VersionQuery;
-import com.scw.devops.query.controller.request.EnvironmentQueryInputFilter;
-import com.scw.devops.query.controller.request.StandardQueryInputFilter;
-import com.scw.devops.query.controller.response.ApplicationDef;
-import com.scw.devops.query.controller.response.Environment;
-import com.scw.devops.query.controller.response.ProductDef;
+import com.scw.devops.query.application.QueryAutowiring;
 
-@Service
 public class DefinitionQuery {
 
 	private final DataStoreReader reader;
 	private final ProductResolver productResolver;
 
-	@Autowired
-	public DefinitionQuery(final DataStoreReader reader, final ProductResolver productResolver) {
-		this.reader = reader;
-		this.productResolver = productResolver;
+	public DefinitionQuery( final QueryAutowiring autowiring ) {
+		this.reader = autowiring.getReader();
+		this.productResolver = autowiring.getProductResolver();
 	}
 
 	public List<Environment> getEnvironments(final Optional<Integer> versionLimit, final EnvironmentQueryInputFilter queryFilter) {
 		// Simple loop of all known environments
 		// Doing some query code (i.e. filtering) here to minimise development overhead
 		// when adding new properties
-		GetAllEnvironmentDefinitionsCommand command = new GetAllEnvironmentDefinitionsCommand( queryFilter.transformTo( versionLimit ) );
+		GetAllEnvironmentDefinitionsCommand command = new GetAllEnvironmentDefinitionsCommand( EnvironmentQueryInputFilterTransformer
+			.transformTo( queryFilter, versionLimit ) );
 		Collection<EnvironmentDefinition> environments = ClientGetAllEnvironmentDefinitionsCommand.process( command, reader );
 		return environments.stream()
-			.filter( e -> ClientEnvironmentDefinitionFilters.filterByName( e, queryFilter.getWantedName() ) )
-			.filter( e -> ClientEnvironmentDefinitionFilters.filterByBooleanProperty( e, queryFilter.isAutoStartWanted() ) )
+			.filter( e -> ClientEnvironmentDefinitionFilters.filterByName( e, EnvironmentQueryInputFilterProcessor.getWantedName( queryFilter ) ) )
+			.filter( e -> ClientEnvironmentDefinitionFilters
+				.filterByBooleanProperty( e,
+										  EnvironmentQueryInputFilterProcessor
+											  .isAutoStartWanted( queryFilter ) ) )
 			.map( e -> ClientEnvironmentDefinitionTransformer.transformTo( e ) )
 			.collect( Collectors.toList() );
 	}
 
 	public List<ProductDef> getProducts(final Optional<Integer> versionLimit, final StandardQueryInputFilter queryFilter) {
-		GetAllProductDefinitionsCommand command = new GetAllProductDefinitionsCommand( queryFilter.transformTo( versionLimit ) );
+		GetAllProductDefinitionsCommand command = new GetAllProductDefinitionsCommand( StandardQueryInputFilterTransformer
+			.transformTo( queryFilter, versionLimit ) );
 		Collection<ProductDefinition> products = ClientGetAllProductDefinitionsCommand.process( command, reader );
 		return productResolver.filterProducts(products, versionLimit, queryFilter);
 	}
 
 	public List<ApplicationDef> getApplications(final Optional<Integer> versionLimit, final StandardQueryInputFilter queryFilter) {
-		GetAllApplicationDefinitionsCommand command = new GetAllApplicationDefinitionsCommand( queryFilter.transformTo( versionLimit ) );
+		GetAllApplicationDefinitionsCommand command = new GetAllApplicationDefinitionsCommand( StandardQueryInputFilterTransformer
+			.transformTo( queryFilter, versionLimit ) );
 		Collection<ApplicationDefinition> applications = ClientGetAllApplicationDefinitionsCommand.process( command, reader );
 		// Note: class query is not relevant
 		return applications.stream()
 			.filter( a -> ClientApplicationDefinitionFilters
 				.filterByName( a,
-							   queryFilter
-								   .getWantedName() ) )
+							   StandardQueryInputFilterProcessor.getWantedName(
+																				queryFilter ) ) )
 			.filter( a -> ClientApplicationDefinitionFilters
 				.filterByErrorState( a,
-									 queryFilter
-										 .getWantedValidity() ) )
+									 StandardQueryInputFilterProcessor
+										 .getWantedValidity( queryFilter ) ) )
 			.sorted( ( a, b ) -> ClientApplicationDefinitionComparator.compareWithNameAscThenVersionDesc( a, b ) )
 			.map( a -> ClientApplicationDefinitionTransformer.transformTo( a ) )
 			.collect( toList() );
 	}
 
-	public Collection<ProductDef> getProductsInEnvironment(final String name, final String version, final Optional<String> wantedClass) {
+	public List<ProductDef> getProductsInEnvironment( final String name, final String version, final Optional<String> wantedClass ) {
 		GetProductDefinitionsForEnvironmentCommand command = new GetProductDefinitionsForEnvironmentCommand( name, version );
 		Collection<ProductDefinition> products = ClientGetProductDefinitionsForEnvironmentCommand.process( command, reader );
 		return productResolver.filterProducts(products, Optional.empty(),
-				new StandardQueryInputFilter(null, null, null, null, wantedClass.orElse(null)));
+											   new StandardQueryInputFilter( Optional
+												   .empty(), Optional.empty(), Optional.empty(), Optional.empty(), wantedClass ) );
 	}
 
-	public Collection<ProductDef> getProductsInApplication(final String applicationName, final String version,
+	public List<ProductDef> getProductsInApplication( final String applicationName,
+													  final String version,
 			final Optional<Integer> versionLimit, final StandardQueryInputFilter queryFilter) {
 		GetProductDefinitionsForApplicationCommand command = new GetProductDefinitionsForApplicationCommand( applicationName,
 																											 version,
-																											 queryFilter
-																												 .transformTo( versionLimit ) );
-		Collection<ProductDefinition> products = ClientGetProductDefinitionsForApplicationCommand.process( command, reader );
+																											 StandardQueryInputFilterTransformer
+																												 .transformTo( queryFilter,
+																															   versionLimit ) );
+		List<ProductDefinition> products = ClientGetProductDefinitionsForApplicationCommand.process( command, reader );
 		return productResolver.filterProducts(products, versionLimit, queryFilter);
 	}
 
@@ -121,7 +130,7 @@ public class DefinitionQuery {
 	}
 
 	public List<ApplicationDef> getOrphanedApplicationDefinitionsSinceRestart() {
-		VersionQuery previewOnlyVersionQuery = generateQuery(Optional.of(1), null, true, true);
+		VersionQuery previewOnlyVersionQuery = generateQuery( Optional.of( 1 ), Optional.empty(), Optional.of( true ), true );
 		GetAllApplicationDefinitionsCommand command = new GetAllApplicationDefinitionsCommand( previewOnlyVersionQuery );
 		Collection<ApplicationDefinition> applications = ClientGetAllApplicationDefinitionsCommand.process( command, reader );
 		return applications.stream()

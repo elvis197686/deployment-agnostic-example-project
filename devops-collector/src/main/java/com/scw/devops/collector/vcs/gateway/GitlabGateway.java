@@ -8,19 +8,16 @@ import java.util.List;
 import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabTag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import com.scw.devops.collector.application.CollectorAutowiring;
 import com.scw.devops.collector.config.GitlabConnectionConfiguration;
 
-@Component
 public class GitlabGateway {
 
 	private final GitlabConnectionConfiguration gitlabConfiguration;
 
-	@Autowired
-	public GitlabGateway(final GitlabConnectionConfiguration gitlabConfiguration) {
-		this.gitlabConfiguration = gitlabConfiguration;
+	public GitlabGateway( final CollectorAutowiring autowiring ) {
+		this.gitlabConfiguration = autowiring.getGitlabConnectionConfiguration();
 	}
 
 	public synchronized List<GitlabProject> getProjects(final String groupName) {

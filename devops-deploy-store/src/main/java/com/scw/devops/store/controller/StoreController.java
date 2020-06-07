@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scw.devops.contract.store.DataStoreReaderImpl;
 import com.scw.devops.contract.store.DataStoreUpdateImpl;
 import com.scw.devops.contract.store.query.command.StoreQueryCommand;
+import com.scw.devops.contract.store.query.command.StoreQueryCommandResult;
 import com.scw.devops.contract.store.update.command.StoreUpdateCommand;
 
 @RestController
@@ -31,9 +32,8 @@ public class StoreController {
 
 	@PostMapping( value = "/query", produces = "application/json" )
 	@ResponseBody
-	public StoreQueryCommand queryCommand( @RequestBody final StoreQueryCommand command ) {
-		dataStoreReader.doCommand( command );
-		return command;
+	public StoreQueryCommandResult queryCommand( @RequestBody final StoreQueryCommand command ) {
+		return dataStoreReader.doCommand( command );
 	}
 
 }
