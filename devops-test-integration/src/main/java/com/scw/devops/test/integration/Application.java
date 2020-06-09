@@ -1,7 +1,6 @@
 package com.scw.devops.test.integration;
 
 import com.scw.devops.application.AutowiringProviderImpl;
-import com.scw.devops.collector.application.AccessCoordinator;
 import com.scw.devops.contract.collector.command.IngestAllDataCommand;
 import com.scw.devops.contract.collector.data.OutputIngestionRequest;
 import com.scw.devops.contract.collector.data.OutputIngestionRequestProcessor;
@@ -20,7 +19,7 @@ public class Application {
 
 	public Application() {
 		AutowiringProviderImpl autowiring = new AutowiringProviderImpl();
-		collectorApi = new CollectorAccessImpl( new AccessCoordinator( autowiring ) );
+		collectorApi = new CollectorAccessImpl( autowiring );
 		queryApi = new DevopsQueryImpl( new DefinitionQuery( autowiring ) );
 		ingestionConfig = autowiring.getGitlabGateway();
 	}

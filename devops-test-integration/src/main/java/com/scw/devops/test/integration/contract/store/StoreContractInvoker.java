@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 
 public class StoreContractInvoker {
 
-	public static <C, S> void doCommand( final C command, final S serviceClass ) {
+	public static <C, S> void doCommand( final C command, final S serviceClass, final Class<?> serviceClassName ) {
 		Class<?> implClass = null;
 		try {
 			implClass = Class.forName(command.getClass().getName() + "Impl");
@@ -16,7 +16,7 @@ public class StoreContractInvoker {
 
 		// Call static execute() method
 		try {
-			Method executeMethod = implClass.getMethod( "execute", serviceClass.getClass(), command.getClass() );
+			Method executeMethod = implClass.getMethod( "execute", serviceClassName, command.getClass() );
 			executeMethod.invoke( null, serviceClass, command );
 		}
 		catch ( NoSuchMethodException ex ) {

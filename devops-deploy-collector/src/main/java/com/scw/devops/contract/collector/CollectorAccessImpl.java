@@ -3,7 +3,7 @@ package com.scw.devops.contract.collector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.scw.devops.collector.application.AccessCoordinator;
+import com.scw.devops.collector.application.CollectorAutowiring;
 import com.scw.devops.contract.collector.command.CollectorAccessCommand;
 import com.scw.devops.contract.collector.command.CollectorAccessCommandResult;
 import com.scw.devops.contract.collector.command.CollectorAccessCommandResultAccessor;
@@ -11,16 +11,16 @@ import com.scw.devops.contract.collector.command.CollectorAccessCommandResultAcc
 @Component
 public class CollectorAccessImpl implements CollectorAccess {
 
-	private AccessCoordinator accessCoordinator;
+	private final CollectorAutowiring collectorAutowiring;
 
 	@Autowired
-	public CollectorAccessImpl( final AccessCoordinator accessCoordinator ) {
-		this.accessCoordinator = accessCoordinator;
+	public CollectorAccessImpl( final CollectorAutowiring collectorAutowiring ) {
+		this.collectorAutowiring = collectorAutowiring;
 	}
 
 	@Override
 	public CollectorAccessCommandResult doCommand( final CollectorAccessCommand command ) {
-		StoreContractInvoker.doCommand( command, accessCoordinator );
+		StoreContractInvoker.doCommand( command, collectorAutowiring, CollectorAutowiring.class );
 		return CollectorAccessCommandResultAccessor.getResultObject( command );
 	}
 

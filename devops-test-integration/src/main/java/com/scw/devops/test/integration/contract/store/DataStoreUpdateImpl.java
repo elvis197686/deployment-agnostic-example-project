@@ -14,7 +14,7 @@ public class DataStoreUpdateImpl implements DataStoreUpdater {
 
 	@Override
 	public void doCommand( final StoreUpdateCommand command ) {
-		StoreContractInvoker.doCommand( command, dataStoreUpdateService );
+		StoreContractInvoker.doCommand( command, dataStoreUpdateService, DataStoreUpdateService.class );
 	}
 
 

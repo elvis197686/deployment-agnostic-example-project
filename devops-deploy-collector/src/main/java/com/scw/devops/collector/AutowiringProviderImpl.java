@@ -3,6 +3,7 @@ package com.scw.devops.collector;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.scw.devops.collector.application.AccessCoordinator;
 import com.scw.devops.collector.application.CollectorAutowiring;
 import com.scw.devops.collector.config.GitlabConfiguration;
 import com.scw.devops.collector.config.GitlabConnectionConfiguration;
@@ -20,6 +21,7 @@ public class AutowiringProviderImpl implements CollectorAutowiring {
 	private final GitlabConnectionConfiguration gitlabConnectionConfig;
 	private final ObjectMapper yamlObjectMapper;
 	// Cannot make final as it refers to this implementation TODO - Inject reader directly instead of this indirection?
+	private AccessCoordinator accessCoordinator;
 	private ProjectReaderFactory projectReaderFactory;
 	private GitlabGateway gitlabGateway;
 	private CollectionService collectionService;
@@ -34,7 +36,8 @@ public class AutowiringProviderImpl implements CollectorAutowiring {
 		this.yamlObjectMapper = yamlObjectMapper;
 	}
 
-	public void fixupDependencies( final ProjectReaderFactory projectReaderFactory, final GitlabGateway gitlabGateway ) {
+	public void fixupDependencies( final ProjectReaderFactory projectReaderFactory,
+								   final GitlabGateway gitlabGateway ) {
 		this.projectReaderFactory = projectReaderFactory;
 		this.gitlabGateway = gitlabGateway;
 	}
@@ -42,6 +45,15 @@ public class AutowiringProviderImpl implements CollectorAutowiring {
 	public void fixup( final CollectionService collectionService, final IngestionService ingestionService ) {
 		this.collectionService = collectionService;
 		this.ingestionService = ingestionService;
+	}
+
+	public void fixupStage2( final AccessCoordinator accessCoordinator ) {
+		this.accessCoordinator = accessCoordinator;
+	}
+
+	@Override
+	public AccessCoordinator getAccessCoordinator() {
+		return accessCoordinator;
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public class DevopsQueryImpl implements DevopsQuery {
 
 	@Override
 	public DevopsQueryCommandResult doCommand( final DevopsQueryCommand command ) {
-		StoreContractInvoker.doCommand( command, definitionQuery );
+		StoreContractInvoker.doCommand( command, definitionQuery, DefinitionQuery.class );
 		return DevopsQueryCommandResultAccessor.getResultObject( command );
 	}
 

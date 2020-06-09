@@ -33,11 +33,7 @@ public class AutowiringConfig {
 	ObjectMapper yamlObjectMapper;
 
 	@Bean
-	public AccessCoordinator accessCoordinator() {
-		return new AccessCoordinator( collectorAutowiring() );
-	}
-
-	private CollectorAutowiring collectorAutowiring() {
+	public CollectorAutowiring collectorAutowiring() {
 		AutowiringProviderImpl autowiring = new AutowiringProviderImpl( dataStoreUpdater(),
 																		logger,
 																		gitlabConfig,
@@ -46,6 +42,7 @@ public class AutowiringConfig {
 		autowiring.fixupDependencies( new ProjectReaderFactory( autowiring ), new GitlabGateway( autowiring ) );
 		autowiring.fixup( new CollectionService( autowiring ),
 						  new IngestionService( autowiring ) );
+		autowiring.fixupStage2( new AccessCoordinator( autowiring ) );
 		return autowiring;
 	}
 

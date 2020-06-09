@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.scw.devops.collector.application.AccessCoordinator;
 import com.scw.devops.collector.application.CollectorAutowiring;
 import com.scw.devops.collector.config.GitlabConfiguration;
 import com.scw.devops.collector.config.GitlabConnectionConfiguration;
@@ -46,6 +47,7 @@ public class AutowiringProviderImpl implements StoreAutowiring, QueryAutowiring,
 	private ResourceFolderGateway resourceFolderGateway;
 	private CollectionService collectionService;
 	private IngestionService ingestionService;
+	private AccessCoordinator accessCoordinator;
 
 	public AutowiringProviderImpl() {
 		// Must all be done in order
@@ -61,6 +63,7 @@ public class AutowiringProviderImpl implements StoreAutowiring, QueryAutowiring,
 		this.projectReaderFactory = new ProjectReaderFactory( this );
 		this.collectionService = new CollectionService( this );
 		this.ingestionService = new IngestionService( this );
+		this.accessCoordinator = new AccessCoordinator( this );
 	}
 
 	@Override
@@ -123,6 +126,11 @@ public class AutowiringProviderImpl implements StoreAutowiring, QueryAutowiring,
 	@Override
 	public ProductResolver getProductResolver() {
 		return productResolver;
+	}
+
+	@Override
+	public AccessCoordinator getAccessCoordinator() {
+		return accessCoordinator;
 	}
 
 }

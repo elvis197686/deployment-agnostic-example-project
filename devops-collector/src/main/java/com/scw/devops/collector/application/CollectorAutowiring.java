@@ -13,6 +13,8 @@ import com.scw.devops.contract.store.update.DataStoreUpdater;
 
 public interface CollectorAutowiring {
 
+	public AccessCoordinator getAccessCoordinator();
+
 	public GitlabGateway getGitlabGateway();
 
 	public ProjectReaderFactory getProjectReaderFactory();

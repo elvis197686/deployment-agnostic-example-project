@@ -16,7 +16,7 @@ public class DataStoreReaderImpl implements DataStoreReader {
 
 	@Override
 	public StoreQueryCommandResult doCommand( final StoreQueryCommand command ) {
-		StoreContractInvoker.doCommand( command, dataStoreQueryService );
+		StoreContractInvoker.doCommand( command, dataStoreQueryService, DataStoreQueryService.class );
 		return StoreQueryCommandResultAccessor.getResultObject( command );
 	}
 
