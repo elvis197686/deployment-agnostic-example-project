@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import com.scw.devops.contract.store.common.data.ProductDefinition;
 import com.scw.devops.contract.store.query.DataStoreReader;
+import com.scw.devops.contract.store.query.command.getproducts.GetAllProductDefinitionsCommand;
 
 public class ClientGetAllProductDefinitionsCommand {
 

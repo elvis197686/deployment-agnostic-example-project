@@ -33,19 +33,19 @@ import com.scw.devops.contract.store.common.data.DefinitionBase;
 import com.scw.devops.contract.store.common.data.EnvironmentDefinition;
 import com.scw.devops.contract.store.common.data.EnvironmentProductDefinitionReference;
 import com.scw.devops.contract.store.common.data.ProductDefinition;
-import com.scw.devops.contract.store.query.command.GetAllApplicationDefinitionsCommand;
-import com.scw.devops.contract.store.query.command.GetAllEnvironmentDefinitionsCommand;
-import com.scw.devops.contract.store.query.command.GetAllProductDefinitionsCommand;
 import com.scw.devops.contract.store.query.command.OutputApplicationDefinitions;
 import com.scw.devops.contract.store.query.command.OutputEnvironmentDefinitions;
 import com.scw.devops.contract.store.query.command.OutputProductDefinitions;
 import com.scw.devops.contract.store.query.command.StoreQueryCommand;
 import com.scw.devops.contract.store.query.command.StoreQueryCommandResult;
+import com.scw.devops.contract.store.query.command.getapplications.GetAllApplicationDefinitionsCommand;
+import com.scw.devops.contract.store.query.command.getenvironments.GetAllEnvironmentDefinitionsCommand;
+import com.scw.devops.contract.store.query.command.getproducts.GetAllProductDefinitionsCommand;
 import com.scw.devops.contract.store.query.data.VersionQuery;
-import com.scw.devops.contract.store.update.command.AddApplicationDefinitionCommand;
-import com.scw.devops.contract.store.update.command.AddEnvironmentDefinitionCommand;
-import com.scw.devops.contract.store.update.command.AddProductDefinitionCommand;
 import com.scw.devops.contract.store.update.command.StoreUpdateCommand;
+import com.scw.devops.contract.store.update.command.addapplication.AddApplicationDefinitionCommand;
+import com.scw.devops.contract.store.update.command.addenvironment.AddEnvironmentDefinitionCommand;
+import com.scw.devops.contract.store.update.command.addproduct.AddProductDefinitionCommand;
 import com.scw.devops.domain.projectversion.ProjectVersion;
 
 // NOTE: Must be in same package as Application class, other you get missing @SpringBootConfiguration errors

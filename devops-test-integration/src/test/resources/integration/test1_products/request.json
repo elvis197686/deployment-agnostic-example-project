@@ -1,5 +1,5 @@
 {
-	"type":"com.scw.devops.contract.query.command.GetProductsCommand",
+	"type":"com.scw.devops.contract.query.command.getproducts.GetProductsCommand",
 	"versionLimit":10,
 	"queryFilter": {
 		"name": "^product1$",

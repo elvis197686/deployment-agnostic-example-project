@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scw.devops.contract.query.DevopsQueryImpl;
 import com.scw.devops.contract.query.command.DevopsQueryCommandResult;
-import com.scw.devops.contract.query.command.GetProductsCommand;
+import com.scw.devops.contract.query.command.getproducts.GetProductsCommand;
 import com.scw.devops.query.controller.request.StandardQueryBody;
 
 @RestController

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scw.devops.contract.query.DevopsQueryImpl;
 import com.scw.devops.contract.query.command.DevopsQueryCommandResult;
-import com.scw.devops.contract.query.command.GetEnvironmentsCommand;
-import com.scw.devops.contract.query.command.GetProductsInEnvironmentCommand;
+import com.scw.devops.contract.query.command.getenvironments.GetEnvironmentsCommand;
+import com.scw.devops.contract.query.command.getproductsinenvironment.GetProductsInEnvironmentCommand;
 import com.scw.devops.query.controller.request.EnvironmentQueryBody;
 import com.scw.devops.query.controller.request.ProductDefinitionQueryBody;
 

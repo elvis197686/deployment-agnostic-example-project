@@ -4,7 +4,7 @@ import org.gitlab.api.models.GitlabProject;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.scw.devops.collector.application.CollectorAutowiring;
+import com.scw.devops.collector.application.autowiring.CollectorAutowiring;
 import com.scw.devops.collector.domain.RepositoryType;
 import com.scw.devops.collector.vcs.gateway.GitlabGateway;
 

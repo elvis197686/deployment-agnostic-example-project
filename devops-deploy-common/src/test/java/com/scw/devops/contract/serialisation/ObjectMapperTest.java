@@ -8,15 +8,15 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.scw.devops.contract.store.query.command.GetAllApplicationDefinitionsCommand;
 import com.scw.devops.contract.store.query.command.StoreQueryCommand;
+import com.scw.devops.contract.store.query.command.getapplications.GetAllApplicationDefinitionsCommand;
 import com.scw.devops.contract.store.query.data.TestVersionQueryProcessor;
 import com.scw.devops.contract.store.query.data.VersionQuery;
 import com.scw.devops.deploy.config.ApplicationConfiguration;
 
 public class ObjectMapperTest {
 
-	private static String SERIALISED_VERSION = "{\"type\":\"com.scw.devops.contract.store.query.command.GetAllApplicationDefinitionsCommand\",\"versionQuery\":{\"versionLimit\":2,\"wantedVersionIsWildcard\":false,\"wantedVersionIsPreview\":false,\"wantedVersionAsSemVer\":null,\"includePreview\":false},\"result\":null}";
+	private static String SERIALISED_VERSION = "{\"type\":\"com.scw.devops.contract.store.query.command.getapplications.GetAllApplicationDefinitionsCommand\",\"versionQuery\":{\"versionLimit\":2,\"wantedVersionIsWildcard\":false,\"wantedVersionIsPreview\":false,\"wantedVersionAsSemVer\":null,\"includePreview\":false},\"result\":null}";
 
 	private static String SERIALISED_QUERY = "{\"versionLimit\":2,\"wantedVersionIsWildcard\":false,\"wantedVersionIsPreview\":false,\"wantedVersionAsSemVer\":null,\"includePreview\":false}";
 

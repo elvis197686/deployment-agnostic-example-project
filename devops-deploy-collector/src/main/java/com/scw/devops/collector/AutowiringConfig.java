@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scw.devops.collector.application.AccessCoordinator;
-import com.scw.devops.collector.application.CollectorAutowiring;
+import com.scw.devops.collector.application.autowiring.CollectorAutowiring;
 import com.scw.devops.collector.config.GitlabConfiguration;
 import com.scw.devops.collector.config.GitlabConnectionConfiguration;
 import com.scw.devops.collector.service.collect.CollectionService;

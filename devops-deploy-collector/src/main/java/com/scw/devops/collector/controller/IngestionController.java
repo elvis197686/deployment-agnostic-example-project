@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scw.devops.collector.config.ApplicationConfigurationImpl;
 import com.scw.devops.contract.collector.CollectorAccessImpl;
 import com.scw.devops.contract.collector.command.CollectorAccessCommandResult;
-import com.scw.devops.contract.collector.command.IngestAllDataCommand;
-import com.scw.devops.contract.collector.command.IngestSingleEnvironmentCommand;
-import com.scw.devops.contract.collector.command.IngestSingleProductCommand;
-import com.scw.devops.contract.collector.command.ProcessGitlabUpdateCommand;
+import com.scw.devops.contract.collector.command.gitlabwebhook.ProcessGitlabUpdateCommand;
+import com.scw.devops.contract.collector.command.ingestall.IngestAllDataCommand;
+import com.scw.devops.contract.collector.command.ingestenvironment.IngestSingleEnvironmentCommand;
+import com.scw.devops.contract.collector.command.ingestproduct.IngestSingleProductCommand;
 import com.scw.devops.contract.collector.data.GitlabWebhookData;
 
 @RestController

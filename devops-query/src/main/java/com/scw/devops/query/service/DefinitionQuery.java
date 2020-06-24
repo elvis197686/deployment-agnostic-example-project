@@ -34,15 +34,15 @@ import com.scw.devops.contract.store.query.command.ClientGetApplicationDefinitio
 import com.scw.devops.contract.store.query.command.ClientGetPreviousApplicationDefinitionCommand;
 import com.scw.devops.contract.store.query.command.ClientGetProductDefinitionsForApplicationCommand;
 import com.scw.devops.contract.store.query.command.ClientGetProductDefinitionsForEnvironmentCommand;
-import com.scw.devops.contract.store.query.command.GetAllApplicationDefinitionsCommand;
-import com.scw.devops.contract.store.query.command.GetAllEnvironmentDefinitionsCommand;
-import com.scw.devops.contract.store.query.command.GetAllProductDefinitionsCommand;
-import com.scw.devops.contract.store.query.command.GetApplicationDefinitionCommand;
-import com.scw.devops.contract.store.query.command.GetPreviousApplicationDefinitionCommand;
-import com.scw.devops.contract.store.query.command.GetProductDefinitionsForApplicationCommand;
-import com.scw.devops.contract.store.query.command.GetProductDefinitionsForEnvironmentCommand;
+import com.scw.devops.contract.store.query.command.getapplication.GetApplicationDefinitionCommand;
+import com.scw.devops.contract.store.query.command.getapplications.GetAllApplicationDefinitionsCommand;
+import com.scw.devops.contract.store.query.command.getenvironments.GetAllEnvironmentDefinitionsCommand;
+import com.scw.devops.contract.store.query.command.getpreviousapplication.GetPreviousApplicationDefinitionCommand;
+import com.scw.devops.contract.store.query.command.getproducts.GetAllProductDefinitionsCommand;
+import com.scw.devops.contract.store.query.command.getproductsinapplication.GetProductDefinitionsForApplicationCommand;
+import com.scw.devops.contract.store.query.command.getproductsinenvironment.GetProductDefinitionsForEnvironmentCommand;
 import com.scw.devops.contract.store.query.data.VersionQuery;
-import com.scw.devops.query.application.QueryAutowiring;
+import com.scw.devops.query.application.autowiring.QueryAutowiring;
 
 public class DefinitionQuery {
 

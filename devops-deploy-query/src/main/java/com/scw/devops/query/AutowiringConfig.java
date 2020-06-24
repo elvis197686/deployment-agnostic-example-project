@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import com.scw.devops.contract.store.DataStoreReaderImpl;
 import com.scw.devops.contract.store.RestGateway;
 import com.scw.devops.contract.store.query.DataStoreReader;
-import com.scw.devops.query.application.QueryAutowiring;
+import com.scw.devops.query.application.autowiring.QueryAutowiring;
 import com.scw.devops.query.service.DefinitionQuery;
 import com.scw.devops.query.service.ProductResolver;
 

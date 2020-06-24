@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.scw.devops.contract.store.common.data.ApplicationDefinition;
 import com.scw.devops.contract.store.query.DataStoreReader;
+import com.scw.devops.contract.store.query.command.getapplication.GetApplicationDefinitionCommand;
 
 public class ClientGetApplicationDefinitionCommand {
 

@@ -1,7 +1,7 @@
 package com.scw.devops.query;
 
 import com.scw.devops.contract.store.query.DataStoreReader;
-import com.scw.devops.query.application.QueryAutowiring;
+import com.scw.devops.query.application.autowiring.QueryAutowiring;
 import com.scw.devops.query.service.ProductResolver;
 
 public class AutowiringProviderImpl implements QueryAutowiring {

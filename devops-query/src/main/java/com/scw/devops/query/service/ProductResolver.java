@@ -19,10 +19,10 @@ import com.scw.devops.contract.store.common.data.ProductDefinition;
 import com.scw.devops.contract.store.query.DataStoreReader;
 import com.scw.devops.contract.store.query.command.ClientGetEnvironmentsWithProductDeployedCommand;
 import com.scw.devops.contract.store.query.command.ClientGetProductApplicationReferencesCommand;
-import com.scw.devops.contract.store.query.command.GetEnvironmentsWithProductDeployedCommand;
-import com.scw.devops.contract.store.query.command.GetProductApplicationReferencesCommand;
+import com.scw.devops.contract.store.query.command.getenvironmentswithproduct.GetEnvironmentsWithProductDeployedCommand;
+import com.scw.devops.contract.store.query.command.getproductapplications.GetProductApplicationReferencesCommand;
 import com.scw.devops.contract.store.query.data.ApplicationInstance;
-import com.scw.devops.query.application.QueryAutowiring;
+import com.scw.devops.query.application.autowiring.QueryAutowiring;
 
 public class ProductResolver {
 

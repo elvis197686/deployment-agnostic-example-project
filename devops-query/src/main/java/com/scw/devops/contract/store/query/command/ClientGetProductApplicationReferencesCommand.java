@@ -3,6 +3,7 @@ package com.scw.devops.contract.store.query.command;
 import java.util.List;
 
 import com.scw.devops.contract.store.query.DataStoreReader;
+import com.scw.devops.contract.store.query.command.getproductapplications.GetProductApplicationReferencesCommand;
 import com.scw.devops.contract.store.query.data.ApplicationInstance;
 
 public class ClientGetProductApplicationReferencesCommand {

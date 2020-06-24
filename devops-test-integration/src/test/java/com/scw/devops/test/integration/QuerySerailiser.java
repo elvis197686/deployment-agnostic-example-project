@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.scw.devops.contract.query.command.GetProductsCommand;
+import com.scw.devops.contract.query.command.getproducts.GetProductsCommand;
 import com.scw.devops.contract.query.data.StandardQueryInputFilter;
 import com.scw.devops.deploy.config.ApplicationConfiguration;
 

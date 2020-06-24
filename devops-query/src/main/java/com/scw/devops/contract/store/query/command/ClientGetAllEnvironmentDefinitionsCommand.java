@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.scw.devops.contract.store.common.data.EnvironmentDefinition;
 import com.scw.devops.contract.store.query.DataStoreReader;
+import com.scw.devops.contract.store.query.command.getenvironments.GetAllEnvironmentDefinitionsCommand;
 
 public class ClientGetAllEnvironmentDefinitionsCommand {
 

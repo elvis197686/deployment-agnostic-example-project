@@ -12,7 +12,7 @@ import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabTag;
 import org.slf4j.Logger;
 
-import com.scw.devops.collector.application.CollectorAutowiring;
+import com.scw.devops.collector.application.autowiring.CollectorAutowiring;
 import com.scw.devops.collector.domain.ProjectData;
 import com.scw.devops.collector.domain.RepositoryLocation;
 import com.scw.devops.collector.domain.RepositoryProjectVersion;

@@ -1,5 +1,5 @@
 {
-   "type":"com.scw.devops.contract.query.command.GetEnvironmentsCommand",
+   "type":"com.scw.devops.contract.query.command.getenvironments.GetEnvironmentsCommand",
    "versionLimit":"10",
    "queryFilter":{
       "name":"^test1$",

@@ -11,6 +11,7 @@ import java.util.function.Function;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabTag;
 
+import com.scw.devops.collector.application.autowiring.CollectorAutowiring;
 import com.scw.devops.collector.domain.ProjectData;
 import com.scw.devops.collector.domain.RepositoryLocation;
 import com.scw.devops.collector.domain.RepositoryProjectVersion;

@@ -1,7 +1,7 @@
 package com.scw.devops.test.integration;
 
 import com.scw.devops.application.AutowiringProviderImpl;
-import com.scw.devops.contract.collector.command.IngestAllDataCommand;
+import com.scw.devops.contract.collector.command.ingestall.IngestAllDataCommand;
 import com.scw.devops.contract.collector.data.OutputIngestionRequest;
 import com.scw.devops.contract.collector.data.OutputIngestionRequestProcessor;
 import com.scw.devops.contract.query.command.DevopsQueryCommand;

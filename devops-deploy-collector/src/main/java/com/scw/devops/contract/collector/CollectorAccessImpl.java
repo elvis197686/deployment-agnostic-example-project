@@ -3,7 +3,7 @@ package com.scw.devops.contract.collector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.scw.devops.collector.application.CollectorAutowiring;
+import com.scw.devops.collector.application.autowiring.CollectorAutowiring;
 import com.scw.devops.contract.collector.command.CollectorAccessCommand;
 import com.scw.devops.contract.collector.command.CollectorAccessCommandResult;
 import com.scw.devops.contract.collector.command.CollectorAccessCommandResultAccessor;

@@ -1,6 +1,6 @@
 package com.scw.devops.test.integration.contract.collector;
 
-import com.scw.devops.collector.application.CollectorAutowiring;
+import com.scw.devops.collector.application.autowiring.CollectorAutowiring;
 import com.scw.devops.contract.collector.CollectorAccess;
 import com.scw.devops.contract.collector.command.CollectorAccessCommand;
 import com.scw.devops.contract.collector.command.CollectorAccessCommandResult;

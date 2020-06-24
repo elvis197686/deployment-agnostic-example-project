@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 
-import com.scw.devops.collector.application.CollectorAutowiring;
+import com.scw.devops.collector.application.autowiring.CollectorAutowiring;
 import com.scw.devops.collector.domain.ProjectData;
 import com.scw.devops.contract.store.common.data.ApplicationDefinition;
 import com.scw.devops.contract.store.common.data.EnvironmentDefinition;

@@ -21,10 +21,10 @@ import com.scw.devops.contract.store.common.data.DefinitionBase;
 import com.scw.devops.contract.store.common.data.EnvironmentDefinition;
 import com.scw.devops.contract.store.common.data.ProductDefinition;
 import com.scw.devops.contract.store.query.DataStoreReader;
-import com.scw.devops.contract.store.query.command.GetEnvironmentsWithProductDeployedCommand;
-import com.scw.devops.contract.store.query.command.GetProductApplicationReferencesCommand;
 import com.scw.devops.contract.store.query.command.OutputApplicationInstances;
 import com.scw.devops.contract.store.query.command.OutputEnvironmentDefinitions;
+import com.scw.devops.contract.store.query.command.getenvironmentswithproduct.GetEnvironmentsWithProductDeployedCommand;
+import com.scw.devops.contract.store.query.command.getproductapplications.GetProductApplicationReferencesCommand;
 import com.scw.devops.contract.store.query.data.ApplicationInstance;
 import com.scw.devops.domain.projectversion.ProjectVersion;
 

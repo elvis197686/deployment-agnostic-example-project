@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabTag;
 
-import com.scw.devops.collector.application.CollectorAutowiring;
+import com.scw.devops.collector.application.autowiring.CollectorAutowiring;
 import com.scw.devops.collector.vcs.gateway.GitlabGateway;
 import com.scw.devops.test.integration.resources.ResourceAccess;
 

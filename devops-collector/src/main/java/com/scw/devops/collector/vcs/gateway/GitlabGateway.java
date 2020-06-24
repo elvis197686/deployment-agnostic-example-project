@@ -9,7 +9,7 @@ import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabTag;
 
-import com.scw.devops.collector.application.CollectorAutowiring;
+import com.scw.devops.collector.application.autowiring.CollectorAutowiring;
 import com.scw.devops.collector.config.GitlabConnectionConfiguration;
 
 public class GitlabGateway {

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scw.devops.contract.query.DevopsQueryImpl;
 import com.scw.devops.contract.query.command.DevopsQueryCommandResult;
-import com.scw.devops.contract.query.command.GetApplicationsCommand;
-import com.scw.devops.contract.query.command.GetOrphanedApplicationsSinceRestartCommand;
-import com.scw.devops.contract.query.command.GetPreviousApplicationsDefinitionCommand;
-import com.scw.devops.contract.query.command.GetProductsInApplicationCommand;
+import com.scw.devops.contract.query.command.getapplications.GetApplicationsCommand;
+import com.scw.devops.contract.query.command.getorphanedapplications.GetOrphanedApplicationsSinceRestartCommand;
+import com.scw.devops.contract.query.command.getpreviousapplications.GetPreviousApplicationsDefinitionCommand;
+import com.scw.devops.contract.query.command.getproductsinapplication.GetProductsInApplicationCommand;
 import com.scw.devops.query.controller.request.StandardQueryBody;
 
 @RestController
